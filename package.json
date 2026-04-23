@@ -1,0 +1,24 @@
+{
+  "name": "bpmnpj",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "bpmn-js": "^18.15.0",
+    "bpmn-js-bpmnlint": "^0.24.0",
+    "bpmn-js-native-copy-paste": "^0.3.0",
+    "bpmn-js-properties-panel": "^5.54.0",
+    "bpmn-js-token-simulation": "^0.39.3",
+    "bpmnlint": "^11.12.1",
+    "diagram-js-grid": "^2.0.1",
+    "diagram-js-minimap": "^5.3.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  }
+}

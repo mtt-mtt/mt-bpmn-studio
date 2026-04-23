@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  id="Definitions_NoDI"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="NoDI_Process" isExecutable="false">
+    <bpmn:startEvent id="StartEvent_1" name="开始">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Task_Collect" name="采集数据">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Task_Review" name="人工复核">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_1" name="结束">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_Collect" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_Collect" targetRef="Task_Review" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_Review" targetRef="EndEvent_1" />
+  </bpmn:process>
+</bpmn:definitions>

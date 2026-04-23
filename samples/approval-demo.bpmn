@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_Approval"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Approval_Process" isExecutable="false">
+    <bpmn:startEvent id="StartEvent_Submit" name="提交申请">
+      <bpmn:outgoing>Flow_Submit</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_Manager" name="经理审批">
+      <bpmn:incoming>Flow_Submit</bpmn:incoming>
+      <bpmn:outgoing>Flow_ToGateway</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_Result" name="是否通过">
+      <bpmn:incoming>Flow_ToGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_Passed</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Rejected</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_Finance" name="财务复核">
+      <bpmn:incoming>Flow_Passed</bpmn:incoming>
+      <bpmn:outgoing>Flow_ToEnd</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_Done" name="完成">
+      <bpmn:incoming>Flow_ToEnd</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndEvent_Rejected" name="退回">
+      <bpmn:incoming>Flow_Rejected</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Submit" sourceRef="StartEvent_Submit" targetRef="Task_Manager" />
+    <bpmn:sequenceFlow id="Flow_ToGateway" sourceRef="Task_Manager" targetRef="Gateway_Result" />
+    <bpmn:sequenceFlow id="Flow_Passed" name="通过" sourceRef="Gateway_Result" targetRef="Task_Finance" />
+    <bpmn:sequenceFlow id="Flow_Rejected" name="退回" sourceRef="Gateway_Result" targetRef="EndEvent_Rejected" />
+    <bpmn:sequenceFlow id="Flow_ToEnd" sourceRef="Task_Finance" targetRef="EndEvent_Done" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Approval">
+    <bpmndi:BPMNPlane id="BPMNPlane_Approval" bpmnElement="Approval_Process">
+      <bpmndi:BPMNShape id="StartEvent_Submit_di" bpmnElement="StartEvent_Submit">
+        <dc:Bounds x="120" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Manager_di" bpmnElement="Task_Manager">
+        <dc:Bounds x="220" y="140" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Result_di" bpmnElement="Gateway_Result" isMarkerVisible="true">
+        <dc:Bounds x="405" y="155" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Finance_di" bpmnElement="Task_Finance">
+        <dc:Bounds x="520" y="80" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Done_di" bpmnElement="EndEvent_Done">
+        <dc:Bounds x="710" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Rejected_di" bpmnElement="EndEvent_Rejected">
+        <dc:Bounds x="530" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Submit_di" bpmnElement="Flow_Submit">
+        <di:waypoint x="156" y="180" />
+        <di:waypoint x="220" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ToGateway_di" bpmnElement="Flow_ToGateway">
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="405" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Passed_di" bpmnElement="Flow_Passed">
+        <di:waypoint x="430" y="155" />
+        <di:waypoint x="430" y="120" />
+        <di:waypoint x="520" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Rejected_di" bpmnElement="Flow_Rejected">
+        <di:waypoint x="430" y="205" />
+        <di:waypoint x="430" y="270" />
+        <di:waypoint x="530" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ToEnd_di" bpmnElement="Flow_ToEnd">
+        <di:waypoint x="640" y="120" />
+        <di:waypoint x="710" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
