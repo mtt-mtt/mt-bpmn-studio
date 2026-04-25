@@ -9,7 +9,7 @@ const appTemplate = `
       <div class="brand">
         <div class="brand-kicker">bpmnPJ</div>
         <h1>BPMN 能力实验场</h1>
-        <p>左侧保留建模能力，右侧用于验证运行态追踪。追踪模式下点击节点，会直接在流程图上方弹出节点详情气泡。</p>
+        <p>左侧保留建模能力，右侧用于验证运行态追踪。建模与追踪通过顶部切换整块工作区，节点详情固定显示在右侧面板。</p>
       </div>
 
       <section class="panel">
@@ -148,7 +148,12 @@ const appTemplate = `
               <h4>审批轨迹</h4>
               <div class="tracking-auto-status" data-role="tracking-auto-status" hidden></div>
             </div>
-            <div class="tracking-log-list" data-role="tracking-log-list"></div>
+            <div class="tracking-side-tabs">
+              <button type="button" class="is-active" data-tracking-tab="detail">节点详情</button>
+              <button type="button" data-tracking-tab="log">事件日志</button>
+            </div>
+            <div class="tracking-detail-card" data-tracking-panel="detail" data-role="tracking-node-detail"></div>
+            <div class="tracking-log-list" data-tracking-panel="log" data-role="tracking-log-list" hidden></div>
           </aside>
         </div>
       </section>
@@ -191,7 +196,7 @@ function renderLogs(container, logs) {
   `).join("");
 }
 
-function buildNodeOverlayHtml(detail) {
+function buildNodeDetailHtml(detail) {
   const definitionItems = (detail.definitionRows || [])
     .slice(0, 3)
     .map((row) => `
@@ -217,8 +222,7 @@ function buildNodeOverlayHtml(detail) {
     .join("");
 
   return `
-    <article class="tracking-node-pop">
-      <div class="tracking-node-pop-arrow"></div>
+    <article class="tracking-node-pop tracking-node-detail">
       <div class="tracking-node-pop-head">
         <div>
           <div class="tracking-node-pop-kicker">${escapeHtml(detail.nodeTypeLabel)}</div>
@@ -292,6 +296,15 @@ function buildFallbackNodeDetail(viewer, scenario, nodeId) {
   };
 }
 
+function buildEmptyNodeDetailHtml() {
+  return `
+    <article class="tracking-node-empty">
+      <h5>未选择节点</h5>
+      <p>点击流程图中的节点后，这里显示节点定义、处理人和历史事件。</p>
+    </article>
+  `;
+}
+
 function getDefaultSelectedNodeId(scenario) {
   return scenario.defaultNodeId
     || scenario.markers.error?.[0]
@@ -335,7 +348,10 @@ export async function bootstrapApp(root) {
   const trackingState = root.querySelector('[data-role="tracking-state"]');
   const trackingBanner = root.querySelector('[data-role="tracking-banner"]');
   const trackingAutoStatus = root.querySelector('[data-role="tracking-auto-status"]');
+  const trackingNodeDetail = root.querySelector('[data-role="tracking-node-detail"]');
   const trackingLogList = root.querySelector('[data-role="tracking-log-list"]');
+  const trackingTabs = [...root.querySelectorAll("[data-tracking-tab]")];
+  const trackingPanels = [...root.querySelectorAll("[data-tracking-panel]")];
 
   const modeler = createModeler(canvas, propertiesPanel);
   const viewer = createViewer(trackingCanvas);
@@ -344,20 +360,25 @@ export async function bootstrapApp(root) {
   const eventBus = modeler.get("eventBus");
   const viewerCanvas = viewer.get("canvas");
   const viewerEventBus = viewer.get("eventBus");
-  const viewerOverlays = viewer.get("overlays");
   const elementRegistry = viewer.get("elementRegistry");
 
   let currentScenarioKey = "running";
   let activeTrackingNodeId = "";
-  let activeOverlayId = null;
 
   engineStatus.textContent = "已就绪";
 
-  const clearNodeOverlay = () => {
-    if (activeOverlayId !== null) {
-      viewerOverlays.remove(activeOverlayId);
-      activeOverlayId = null;
-    }
+  const setTrackingTab = (tab) => {
+    trackingTabs.forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.trackingTab === tab);
+    });
+
+    trackingPanels.forEach((panel) => {
+      panel.hidden = panel.dataset.trackingPanel !== tab;
+    });
+  };
+
+  const clearNodeDetail = () => {
+    trackingNodeDetail.innerHTML = buildEmptyNodeDetailHtml();
   };
 
   const setDirtyState = (isDirty) => {
@@ -387,13 +408,13 @@ export async function bootstrapApp(root) {
   const setActiveTrackingNode = (nodeId) => {
     const scenario = trackingScenarios[currentScenarioKey];
 
-    clearNodeOverlay();
-
     if (!nodeId) {
       if (activeTrackingNodeId) {
         viewerCanvas.removeMarker(activeTrackingNodeId, "tracking-marker-selected");
       }
       activeTrackingNodeId = "";
+      clearNodeDetail();
+      setTrackingTab("log");
       return;
     }
 
@@ -406,21 +427,13 @@ export async function bootstrapApp(root) {
 
     const element = elementRegistry.get(nodeId);
     if (!element) {
+      clearNodeDetail();
       return;
     }
 
     const detail = scenario.nodeDetails?.[nodeId] || buildFallbackNodeDetail(viewer, scenario, nodeId);
-    const html = document.createElement("div");
-    html.className = "tracking-node-pop-shell";
-    html.innerHTML = buildNodeOverlayHtml(detail);
-
-    activeOverlayId = viewerOverlays.add(nodeId, {
-      position: {
-        left: Math.round((element.width || 0) / 2),
-        top: -184,
-      },
-      html,
-    });
+    trackingNodeDetail.innerHTML = buildNodeDetailHtml(detail);
+    setTrackingTab("detail");
   };
 
   const setView = (view) => {
@@ -441,7 +454,7 @@ export async function bootstrapApp(root) {
         }
       });
     } else {
-      clearNodeOverlay();
+      clearNodeDetail();
     }
   };
 
@@ -449,7 +462,7 @@ export async function bootstrapApp(root) {
     const scenario = trackingScenarios[scenarioKey];
     currentScenarioKey = scenarioKey;
     activeTrackingNodeId = "";
-    clearNodeOverlay();
+    clearNodeDetail();
 
     await viewer.importXML(scenario.xml);
 
@@ -583,6 +596,12 @@ export async function bootstrapApp(root) {
   root.querySelectorAll("[data-scenario]").forEach((button) => {
     button.addEventListener("click", async () => {
       await loadTrackingScenario(button.dataset.scenario);
+    });
+  });
+
+  trackingTabs.forEach((button) => {
+    button.addEventListener("click", () => {
+      setTrackingTab(button.dataset.trackingTab);
     });
   });
 

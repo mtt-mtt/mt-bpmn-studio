@@ -15,6 +15,10 @@ body {
   background: var(--odoo-bg);
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .tracking-card {
   padding: 0;
   border: 1px solid var(--odoo-border);
@@ -59,14 +63,18 @@ body {
 }
 
 .tracking-body {
-  height: calc(100% - 75px);
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
   grid-template-columns: minmax(0, 1fr) 360px;
   gap: 0;
 }
 
 .tracking-canvas-wrap {
+  min-height: 0;
   padding: 20px;
   background: var(--odoo-muted-bg);
+  overflow: hidden;
 }
 
 .tracking-banner {
@@ -82,6 +90,8 @@ body {
 
 .tracking-canvas-host {
   position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
   border: 1px solid var(--odoo-border);
   border-radius: 8px;
   background:
@@ -181,6 +191,7 @@ body {
 }
 
 .tracking-timeline {
+  min-height: 0;
   border: 0;
   border-left: 1px solid var(--odoo-border);
   border-radius: 0;
@@ -198,7 +209,69 @@ body {
 }
 
 .tracking-log-list {
+  flex: 1 1 auto;
+  min-height: 0;
   padding: 20px;
+}
+
+.tracking-detail-card {
+  flex: 0 0 auto;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--odoo-border);
+  background: #fff;
+}
+
+.tracking-side-tabs {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--odoo-border);
+  background: #fafafa;
+}
+
+.tracking-side-tabs button {
+  height: 34px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.tracking-side-tabs button.is-active {
+  border-color: var(--odoo-border);
+  background: #fff;
+  color: var(--odoo-primary);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.tracking-node-empty {
+  padding: 18px;
+  border: 1px dashed var(--odoo-border);
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.tracking-node-empty h5 {
+  margin: 0 0 8px;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.tracking-node-empty p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.tracking-canvas-host .tracking-node-pop-shell {
+  display: none !important;
 }
 
 .tracking-log-item {
@@ -299,6 +372,313 @@ body {
   filter: drop-shadow(0 0 8px rgba(217, 131, 31, 0.22));
 }
 
+/* Final modeler surface: expanded BPMN palette + top toolbar */
+.canvas-card .canvas-host {
+  background:
+    radial-gradient(#d1d5db 1px, transparent 1px),
+    #f9fafb !important;
+  background-size: 20px 20px, auto !important;
+}
+
+.canvas-card .canvas-host .djs-container {
+  background:
+    radial-gradient(#d1d5db 1px, transparent 1px),
+    #f9fafb !important;
+  background-size: 20px 20px, auto !important;
+}
+
+.canvas-card .canvas-host .djs-palette {
+  top: 0 !important;
+  left: 0 !important;
+  width: 280px !important;
+  height: 100% !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-right: 1px solid #e5e7eb !important;
+  border-radius: 0 !important;
+  background: #fafafa !important;
+  box-shadow: none !important;
+}
+
+.canvas-card .canvas-host .djs-palette .djs-palette-entries {
+  box-sizing: border-box;
+  height: 100%;
+  max-height: none !important;
+  padding: 12px 16px 24px !important;
+  overflow-y: auto !important;
+}
+
+.canvas-card .canvas-host .djs-palette .djs-palette-entries::-webkit-scrollbar {
+  width: 4px;
+}
+
+.canvas-card .canvas-host .djs-palette .djs-palette-entries::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #d1d5db;
+}
+
+.canvas-card .canvas-host .djs-palette .group {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 6px !important;
+  margin: 0 0 20px !important;
+}
+
+.canvas-card .canvas-host .djs-palette .group:last-child {
+  margin-bottom: 0 !important;
+}
+
+.canvas-card .canvas-host .odoo-palette-title {
+  grid-column: 1 / -1 !important;
+  padding: 0 !important;
+  margin: 0 0 6px !important;
+  color: #111827 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+}
+
+.canvas-card .canvas-host .djs-palette .entry.odoo-palette-entry {
+  display: flex !important;
+  width: auto !important;
+  height: 62px !important;
+  min-width: 0 !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  margin: 0 !important;
+  padding: 8px 4px !important;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  background: #fff !important;
+  color: #4b5563 !important;
+  cursor: grab !important;
+  line-height: 1 !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, transform 0.2s ease, background 0.2s ease !important;
+  user-select: none !important;
+}
+
+.canvas-card .canvas-host .djs-palette .entry.odoo-palette-entry::before {
+  display: none !important;
+}
+
+.canvas-card .canvas-host .djs-palette .entry.odoo-palette-entry:hover {
+  border-color: #d1d5db !important;
+  background: #fff !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+  color: #714b67 !important;
+  transform: translateY(-1px) !important;
+}
+
+.canvas-card .canvas-host .djs-palette .entry.odoo-palette-entry:active {
+  border-color: #714b67 !important;
+  background: rgba(113, 75, 103, 0.08) !important;
+  cursor: grabbing !important;
+  transform: translateY(0) !important;
+}
+
+.canvas-card .canvas-host .odoo-palette-glyph {
+  display: inline-flex !important;
+  width: 24px !important;
+  height: 24px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: currentColor !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+}
+
+.canvas-card .canvas-host .odoo-palette-glyph::before {
+  margin: 0 !important;
+  font-size: 24px !important;
+}
+
+.canvas-card .canvas-host .odoo-palette-label {
+  width: 100% !important;
+  max-width: none !important;
+  overflow: visible !important;
+  overflow-wrap: anywhere !important;
+  color: #6b7280 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  line-height: 1.1 !important;
+  text-align: center !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+}
+
+.canvas-card .canvas-host .djs-palette .entry.odoo-palette-entry:hover .odoo-palette-label {
+  color: #714b67 !important;
+}
+
+.canvas-card .canvas-host .djs-palette .djs-palette-toggle,
+.canvas-card .canvas-host .djs-palette .separator {
+  display: none !important;
+}
+
+.canvas-card .canvas-host .experiment-canvas-controls {
+  position: absolute !important;
+  z-index: 50 !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 280px !important;
+  display: flex !important;
+  height: 48px !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 0 16px !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02) !important;
+}
+
+.canvas-card .canvas-host .experiment-toolbar-btn {
+  display: inline-flex !important;
+  width: 32px !important;
+  height: 32px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+  color: #6b7280 !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}
+
+.canvas-card .canvas-host .experiment-toolbar-btn:hover {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+.canvas-card .canvas-host .experiment-toolbar-btn.is-active {
+  background: #fef08a !important;
+  color: #854d0e !important;
+}
+
+.canvas-card .canvas-host .experiment-toolbar-btn svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.canvas-card .canvas-host .experiment-toolbar-btn svg[fill="currentColor"] {
+  fill: currentColor !important;
+  stroke: none !important;
+}
+
+.canvas-card .canvas-host .experiment-language-btn {
+  width: 36px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+.canvas-card .canvas-host .djs-minimap {
+  top: 60px !important;
+  right: 16px !important;
+  z-index: 40 !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 6px !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10) !important;
+}
+
+.canvas-card .canvas-host .djs-minimap:not(.open) {
+  display: none !important;
+}
+
+.canvas-card .canvas-host .djs-minimap .toggle {
+  display: none !important;
+}
+
+.canvas-card .canvas-host .djs-minimap .map {
+  width: 260px !important;
+  height: 150px !important;
+}
+
+.canvas-card .canvas-host .djs-minimap .viewport-dom {
+  border: 2px solid #714b67 !important;
+  border-radius: 3px !important;
+}
+
+.canvas-card .canvas-host .bjs-breadcrumbs {
+  position: absolute !important;
+  top: 60px !important;
+  left: 300px !important;
+  z-index: 46 !important;
+  display: flex !important;
+  max-width: calc(100% - 620px) !important;
+  gap: 6px !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.canvas-card .canvas-host .bjs-breadcrumbs .bjs-crumb {
+  display: inline-flex !important;
+  max-width: 220px !important;
+  align-items: center !important;
+  padding: 4px 8px !important;
+  overflow: hidden !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 4px !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
+  color: #374151 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.canvas-card .canvas-host .bjs-breadcrumbs .bjs-crumb a {
+  overflow: hidden !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.canvas-card .canvas-host .bjs-breadcrumbs .bjs-crumb:hover {
+  border-color: rgba(113, 75, 103, 0.35) !important;
+  color: #714b67 !important;
+}
+
+.canvas-card .canvas-host .experiment-canvas-controls-divider {
+  width: 1px !important;
+  height: 20px !important;
+  margin: 0 4px !important;
+  background: #e5e7eb !important;
+}
+
+.canvas-card .canvas-host .experiment-bpmn-logo {
+  position: absolute;
+  right: 16px;
+  bottom: 8px;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  opacity: 0.6;
+}
+
+.bts-toggle-mode,
+.canvas-card .canvas-host .bts-toggle-mode {
+  display: none !important;
+}
+
 .djs-palette {
   width: 204px !important;
   max-height: calc(100% - 24px);
@@ -360,16 +740,18 @@ body {
 }
 
 .odoo-palette-label {
-  max-width: 36px;
-  overflow: hidden;
+  width: 100%;
+  max-width: none;
+  overflow: visible;
+  overflow-wrap: anywhere;
   color: #6b7280;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   font-size: 10px !important;
   font-weight: 700;
   line-height: 1.1;
   text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 .odoo-palette-title {
@@ -620,11 +1002,12 @@ body {
 }
 
 .odoo-palette-label {
-  overflow: hidden;
+  overflow: visible;
+  overflow-wrap: anywhere;
   font-size: 12px;
   font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 .odoo-palette-entry.is-success .odoo-palette-icon {
@@ -703,16 +1086,6 @@ body {
   font-weight: 500 !important;
 }
 
-.djs-connection .djs-visual > path {
-  stroke: var(--odoo-grid) !important;
-  stroke-width: 2px !important;
-}
-
-.djs-connection.selected .djs-visual > path,
-.djs-shape.selected .djs-visual > :first-child {
-  stroke: var(--odoo-primary) !important;
-}
-
 .custom-theme-task-header {
   pointer-events: none;
 }
@@ -746,4 +1119,103 @@ body {
   stroke: var(--odoo-warning) !important;
   stroke-width: 3px !important;
   filter: drop-shadow(0 0 8px rgba(217, 131, 31, 0.22));
+}
+
+/* Use diagram-js-grid only. CSS background grids do not scale with the canvas. */
+.canvas-card .canvas-host,
+.canvas-card .canvas-host .djs-container {
+  background: #f9fafb !important;
+  background-image: none !important;
+  background-size: auto !important;
+}
+
+/* Open-source workbench layout: keep major surfaces inside one viewport. */
+html,
+body,
+#app {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.shell {
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebar,
+.workspace {
+  min-height: 0;
+}
+
+.sidebar {
+  overflow-y: auto;
+}
+
+.workspace {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.workspace-header {
+  flex: 0 0 auto;
+}
+
+.canvas-card,
+.tracking-card {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+}
+
+.canvas-card-split,
+.tracking-body {
+  min-height: 0;
+}
+
+.tracking-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.tracking-header {
+  flex: 0 0 auto;
+}
+
+.tracking-node-detail {
+  width: auto;
+  padding: 0;
+  border: 0;
+  border-left: 3px solid var(--odoo-primary);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  pointer-events: auto;
+}
+
+.tracking-node-detail .tracking-node-pop-arrow {
+  display: none;
+}
+
+.tracking-node-detail .tracking-node-pop-head,
+.tracking-node-detail .tracking-node-pop-meta,
+.tracking-node-detail .tracking-node-pop-section {
+  padding-left: 12px;
+}
+
+.tracking-node-detail .tracking-node-pop-head {
+  margin-bottom: 12px;
+}
+
+.tracking-node-detail .tracking-node-pop-head h5 {
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+.tracking-node-detail .tracking-node-pop-row strong {
+  max-width: 190px;
+  overflow-wrap: anywhere;
 }

@@ -16,12 +16,19 @@ const COLORS = {
 
 function hasColorOverride(element) {
   const di = element?.di;
+  const get = di?.get?.bind(di);
 
   return Boolean(
-    di?.get?.("color:background-color")
-      || di?.get?.("color:border-color")
-      || di?.get?.("bioc:fill")
-      || di?.get?.("bioc:stroke")
+    di?.fill
+      || di?.stroke
+      || di?.backgroundColor
+      || di?.borderColor
+      || di?.["bioc:fill"]
+      || di?.["bioc:stroke"]
+      || get?.("color:background-color")
+      || get?.("color:border-color")
+      || get?.("bioc:fill")
+      || get?.("bioc:stroke")
   );
 }
 
@@ -111,6 +118,10 @@ CustomThemeRenderer.prototype.drawShape = function(parentGfx, shape) {
 };
 
 CustomThemeRenderer.prototype.drawConnection = function(parentGfx, connection) {
+  if (hasColorOverride(connection)) {
+    return this.bpmnRenderer.drawConnection(parentGfx, connection);
+  }
+
   return this.bpmnRenderer.drawConnection(parentGfx, connection, {
     stroke: COLORS.muted,
     "stroke-width": 2,

@@ -20,7 +20,9 @@ html,
 body,
 #app {
   margin: 0;
-  min-height: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 body {
@@ -36,13 +38,21 @@ input {
   font: inherit;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .shell {
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 0;
   display: grid;
   grid-template-columns: 340px minmax(0, 1fr);
+  overflow: hidden;
 }
 
 .sidebar {
+  min-height: 0;
+  overflow-y: auto;
   padding: 24px;
   border-right: 1px solid rgba(122, 79, 60, 0.12);
   background: rgba(247, 243, 238, 0.82);
@@ -157,10 +167,16 @@ input {
 
 .workspace {
   min-width: 0;
+  min-height: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   padding: 24px;
 }
 
 .workspace-header {
+  flex: 0 0 auto;
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -218,8 +234,9 @@ input {
 }
 
 .canvas-card {
-  height: calc(100vh - 90px);
-  min-height: 620px;
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
   padding: 14px;
   border: 1px solid rgba(122, 79, 60, 0.14);
   border-radius: 26px;
@@ -231,6 +248,7 @@ input {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 360px;
   gap: 14px;
+  min-height: 0;
 }
 
 .canvas-host {
@@ -295,8 +313,11 @@ input {
 }
 
 .tracking-card {
-  height: calc(100vh - 90px);
-  min-height: 620px;
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   padding: 18px;
   border: 1px solid rgba(122, 79, 60, 0.14);
   border-radius: 26px;
@@ -305,6 +326,7 @@ input {
 }
 
 .tracking-header {
+  flex: 0 0 auto;
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -373,7 +395,9 @@ input {
 }
 
 .tracking-body {
-  height: calc(100% - 88px);
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 360px;
   gap: 14px;
@@ -385,6 +409,7 @@ input {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  overflow: hidden;
 }
 
 .tracking-banner {
@@ -398,6 +423,7 @@ input {
 }
 
 .tracking-canvas-host {
+  flex: 1 1 auto;
   min-height: 0;
   height: 100%;
   border: 1px solid rgba(122, 79, 60, 0.10);
@@ -416,6 +442,61 @@ input {
   border-radius: 18px;
   background: rgba(255, 252, 248, 0.92);
   overflow: hidden;
+}
+
+.tracking-detail-card {
+  flex: 0 0 auto;
+  padding: 16px;
+  border-bottom: 1px solid rgba(122, 79, 60, 0.10);
+  background: #fff;
+}
+
+.tracking-side-tabs {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 10px;
+  border-bottom: 1px solid rgba(122, 79, 60, 0.10);
+  background: rgba(250, 250, 250, 0.92);
+}
+
+.tracking-side-tabs button {
+  height: 34px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tracking-side-tabs button.is-active {
+  border-color: rgba(122, 79, 60, 0.14);
+  background: #fff;
+  color: var(--accent-strong);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.tracking-node-empty {
+  padding: 18px;
+  border: 1px dashed rgba(122, 79, 60, 0.18);
+  border-radius: 12px;
+  background: rgba(250, 250, 250, 0.7);
+}
+
+.tracking-node-empty h5 {
+  margin: 0 0 8px;
+  color: var(--text-main);
+  font-size: 14px;
+}
+
+.tracking-node-empty p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .tracking-timeline-header {
@@ -592,6 +673,7 @@ input {
 
 .tracking-log-list {
   min-height: 0;
+  flex: 1 1 auto;
   overflow-y: auto;
   padding: 18px;
 }
@@ -725,68 +807,6 @@ input {
   box-shadow: 0 18px 38px rgba(15, 23, 42, 0.16);
 }
 
-.experiment-comment-bubble {
-  display: grid;
-  grid-template-columns: 8px minmax(0, 1fr);
-  gap: 8px;
-  width: 178px;
-  min-height: 48px;
-  padding: 9px 10px 9px 8px;
-  border: 1px solid rgba(217, 131, 31, 0.40);
-  border-left: 4px solid #d9831f;
-  border-radius: 12px;
-  background: rgba(255, 247, 237, 0.98);
-  color: #7c2d12;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
-  cursor: move;
-  font: inherit;
-  user-select: none;
-}
-
-.experiment-comment-bubble-drag {
-  width: 4px;
-  height: 100%;
-  min-height: 28px;
-  border-radius: 999px;
-  background: #d9831f;
-  opacity: 0.75;
-}
-
-.experiment-comment-bubble-content {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.experiment-comment-bubble-kicker {
-  color: #b45309;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.experiment-comment-bubble-text {
-  overflow: hidden;
-  color: #7c2d12;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.35;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.experiment-context-entry {
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  color: #714b67;
-  font-size: 12px;
-  font-weight: 800;
-}
-
 .experiment-canvas-controls {
   position: absolute;
   z-index: 20;
@@ -817,125 +837,6 @@ input {
 .experiment-canvas-controls button:hover {
   border-color: rgba(122, 79, 60, 0.32);
   color: var(--accent-strong);
-}
-
-.experiment-comment-dialog-backdrop {
-  position: fixed;
-  z-index: 10000;
-  inset: 0;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 78px;
-  background: rgba(15, 23, 42, 0.18);
-}
-
-.experiment-comment-dialog {
-  width: min(520px, calc(100vw - 32px));
-  padding: 18px;
-  border: 1px solid rgba(122, 79, 60, 0.16);
-  border-radius: 18px;
-  background: #fffdfa;
-  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.22);
-}
-
-.experiment-comment-dialog-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  align-items: flex-start;
-  margin-bottom: 14px;
-}
-
-.experiment-comment-dialog-kicker {
-  color: var(--accent);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.experiment-comment-dialog h3 {
-  margin: 6px 0 0;
-  font-size: 20px;
-  line-height: 1.2;
-}
-
-.experiment-comment-dialog-close {
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(122, 79, 60, 0.14);
-  border-radius: 10px;
-  background: #fff;
-  color: #334155;
-  cursor: pointer;
-  font-size: 22px;
-  line-height: 1;
-}
-
-.experiment-comment-dialog-input {
-  width: 100%;
-  min-height: 128px;
-  resize: vertical;
-  padding: 12px;
-  border: 1px solid rgba(122, 79, 60, 0.20);
-  border-radius: 14px;
-  outline: none;
-  background: #fff;
-  color: var(--text-main);
-  font: inherit;
-  line-height: 1.5;
-}
-
-.experiment-comment-dialog-input:focus {
-  border-color: rgba(122, 79, 60, 0.48);
-  box-shadow: 0 0 0 4px rgba(122, 79, 60, 0.10);
-}
-
-.experiment-comment-dialog-meta {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: center;
-  margin-top: 10px;
-  color: var(--text-muted);
-  font-size: 12px;
-}
-
-.experiment-comment-dialog-clear {
-  border: 0;
-  background: transparent;
-  color: #b45309;
-  cursor: pointer;
-  font-weight: 700;
-}
-
-.experiment-comment-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.experiment-comment-dialog-actions button {
-  min-width: 88px;
-  height: 38px;
-  padding: 0 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 700;
-}
-
-.experiment-comment-dialog-secondary {
-  border: 1px solid rgba(122, 79, 60, 0.16);
-  background: #fff;
-  color: var(--text-main);
-}
-
-.experiment-comment-dialog-primary {
-  border: 1px solid var(--accent-strong);
-  background: var(--accent-strong);
-  color: #fff;
 }
 
 @media (max-width: 1100px) {
