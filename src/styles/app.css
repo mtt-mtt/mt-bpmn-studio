@@ -714,6 +714,230 @@ input {
   filter: drop-shadow(0 0 10px rgba(17, 24, 39, 0.18));
 }
 
+.custom-theme-task-accent,
+.custom-theme-gateway-core,
+.custom-theme-event-ring {
+  pointer-events: none;
+}
+
+.djs-popup.color-picker-popup {
+  border-radius: 14px;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.16);
+}
+
+.experiment-comment-bubble {
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr);
+  gap: 8px;
+  width: 178px;
+  min-height: 48px;
+  padding: 9px 10px 9px 8px;
+  border: 1px solid rgba(217, 131, 31, 0.40);
+  border-left: 4px solid #d9831f;
+  border-radius: 12px;
+  background: rgba(255, 247, 237, 0.98);
+  color: #7c2d12;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+  cursor: move;
+  font: inherit;
+  user-select: none;
+}
+
+.experiment-comment-bubble-drag {
+  width: 4px;
+  height: 100%;
+  min-height: 28px;
+  border-radius: 999px;
+  background: #d9831f;
+  opacity: 0.75;
+}
+
+.experiment-comment-bubble-content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.experiment-comment-bubble-kicker {
+  color: #b45309;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.experiment-comment-bubble-text {
+  overflow: hidden;
+  color: #7c2d12;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.experiment-context-entry {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #714b67;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.experiment-canvas-controls {
+  position: absolute;
+  z-index: 20;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid rgba(122, 79, 60, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 253, 250, 0.94);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.10);
+}
+
+.experiment-canvas-controls button {
+  min-width: 42px;
+  height: 30px;
+  padding: 0 9px;
+  border: 1px solid rgba(122, 79, 60, 0.14);
+  border-radius: 10px;
+  background: #fff;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.experiment-canvas-controls button:hover {
+  border-color: rgba(122, 79, 60, 0.32);
+  color: var(--accent-strong);
+}
+
+.experiment-comment-dialog-backdrop {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 78px;
+  background: rgba(15, 23, 42, 0.18);
+}
+
+.experiment-comment-dialog {
+  width: min(520px, calc(100vw - 32px));
+  padding: 18px;
+  border: 1px solid rgba(122, 79, 60, 0.16);
+  border-radius: 18px;
+  background: #fffdfa;
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.22);
+}
+
+.experiment-comment-dialog-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.experiment-comment-dialog-kicker {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.experiment-comment-dialog h3 {
+  margin: 6px 0 0;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.experiment-comment-dialog-close {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(122, 79, 60, 0.14);
+  border-radius: 10px;
+  background: #fff;
+  color: #334155;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.experiment-comment-dialog-input {
+  width: 100%;
+  min-height: 128px;
+  resize: vertical;
+  padding: 12px;
+  border: 1px solid rgba(122, 79, 60, 0.20);
+  border-radius: 14px;
+  outline: none;
+  background: #fff;
+  color: var(--text-main);
+  font: inherit;
+  line-height: 1.5;
+}
+
+.experiment-comment-dialog-input:focus {
+  border-color: rgba(122, 79, 60, 0.48);
+  box-shadow: 0 0 0 4px rgba(122, 79, 60, 0.10);
+}
+
+.experiment-comment-dialog-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.experiment-comment-dialog-clear {
+  border: 0;
+  background: transparent;
+  color: #b45309;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.experiment-comment-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.experiment-comment-dialog-actions button {
+  min-width: 88px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.experiment-comment-dialog-secondary {
+  border: 1px solid rgba(122, 79, 60, 0.16);
+  background: #fff;
+  color: var(--text-main);
+}
+
+.experiment-comment-dialog-primary {
+  border: 1px solid var(--accent-strong);
+  background: var(--accent-strong);
+  color: #fff;
+}
+
 @media (max-width: 1100px) {
   .shell {
     grid-template-columns: 1fr;

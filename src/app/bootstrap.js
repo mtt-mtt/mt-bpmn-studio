@@ -128,7 +128,20 @@ const appTemplate = `
         <div class="tracking-body">
           <div class="tracking-canvas-wrap">
             <div class="tracking-banner" data-role="tracking-banner" hidden></div>
-            <div class="tracking-canvas-host" data-role="tracking-canvas"></div>
+            <div class="tracking-canvas-host odoo-theme-canvas" data-role="tracking-canvas">
+              <div class="canvas-legend">
+                <div class="legend-item"><span class="legend-dot is-completed"></span>已完成</div>
+                <div class="legend-item"><span class="legend-dot is-current"></span>当前节点</div>
+                <div class="legend-item"><span class="legend-dot is-pending"></span>抄送/非阻塞</div>
+                <div class="legend-item"><span class="legend-dot is-error"></span>异常</div>
+              </div>
+              <div class="canvas-toolbar">
+                <button type="button" class="icon-btn" data-tracking-tool="zoom-in" title="放大">+</button>
+                <button type="button" class="icon-btn" data-tracking-tool="zoom-out" title="缩小">-</button>
+                <button type="button" class="icon-btn" data-tracking-tool="fit" title="适配画布">⌖</button>
+                <button type="button" class="icon-btn" data-tracking-tool="refresh" title="刷新画布">↻</button>
+              </div>
+            </div>
           </div>
           <aside class="tracking-timeline">
             <div class="tracking-timeline-header">
@@ -570,6 +583,30 @@ export async function bootstrapApp(root) {
   root.querySelectorAll("[data-scenario]").forEach((button) => {
     button.addEventListener("click", async () => {
       await loadTrackingScenario(button.dataset.scenario);
+    });
+  });
+
+  root.querySelectorAll("[data-tracking-tool]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const tool = button.dataset.trackingTool;
+
+      if (tool === "fit") {
+        fitTrackingCanvas();
+        return;
+      }
+
+      if (tool === "refresh") {
+        await loadTrackingScenario(currentScenarioKey);
+        return;
+      }
+
+      const currentZoom = viewerCanvas.zoom();
+      if (tool === "zoom-in") {
+        viewerCanvas.zoom(Math.min(currentZoom + 0.15, 2.5));
+      }
+      if (tool === "zoom-out") {
+        viewerCanvas.zoom(Math.max(currentZoom - 0.15, 0.25));
+      }
     });
   });
 }
