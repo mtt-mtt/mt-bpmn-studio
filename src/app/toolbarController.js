@@ -23,43 +23,39 @@ export function createToolbarController({
     modelerController.fitCanvas();
   };
 
+  const actionHandlers = {
+    new: async () => {
+      await modelerController.loadDefaultDiagram();
+    },
+    open: () => {
+      modelerController.openFilePicker();
+    },
+    fit: fitActiveCanvas,
+    "toggle-lint": () => {
+      modelerController.toggleLint();
+    },
+    "toggle-simulation": () => {
+      modelerController.toggleSimulation();
+    },
+    undo: () => {
+      modelerController.undo();
+    },
+    redo: () => {
+      modelerController.redo();
+    },
+    "save-xml": async () => {
+      await modelerController.saveXml();
+    },
+    "save-svg": async () => {
+      await modelerController.saveSvg();
+    },
+  };
+
   return {
     bindEvents: () => {
-      const disposers = [];
-
-      disposers.push(bindAction("new", async () => {
-        await modelerController.loadDefaultDiagram();
-      }));
-
-      disposers.push(bindAction("open", () => {
-        modelerController.openFilePicker();
-      }));
-
-      disposers.push(bindAction("fit", fitActiveCanvas));
-
-      disposers.push(bindAction("toggle-lint", () => {
-        modelerController.toggleLint();
-      }));
-
-      disposers.push(bindAction("toggle-simulation", () => {
-        modelerController.toggleSimulation();
-      }));
-
-      disposers.push(bindAction("undo", () => {
-        modelerController.undo();
-      }));
-
-      disposers.push(bindAction("redo", () => {
-        modelerController.redo();
-      }));
-
-      disposers.push(bindAction("save-xml", async () => {
-        await modelerController.saveXml();
-      }));
-
-      disposers.push(bindAction("save-svg", async () => {
-        await modelerController.saveSvg();
-      }));
+      const disposers = Object.entries(actionHandlers).map(([action, handler]) =>
+        bindAction(action, handler),
+      );
 
       return () => disposeAll(disposers);
     },
