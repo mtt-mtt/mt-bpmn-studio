@@ -16,6 +16,7 @@ const requiredFiles = [
   "src/app/workbench.js",
   "src/modeler/createModeler.js",
   "src/modeler/diagramActions.js",
+  "src/modeler/events.js",
   "src/modeler/features.js",
   "src/modeler/modules.js",
   "src/modeler/palette/paletteEntries.js",
