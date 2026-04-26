@@ -1,4 +1,5 @@
 import { getLanguage, setLanguage } from "../i18n/translations.js";
+import { getToolbarLabel } from "../i18n/toolbarLabels.js";
 
 const ICONS = {
   hand: '<svg viewBox="0 0 24 24"><path d="M8 11V6a2 2 0 1 1 4 0v5"/><path d="M12 11V5a2 2 0 1 1 4 0v7"/><path d="M16 12V8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-1a8 8 0 0 1-8-8v-3a2 2 0 1 1 4 0v2"/><path d="M8 11v2"/></svg>',
@@ -31,26 +32,8 @@ function button(icon, title, onClick, className = "") {
   return control;
 }
 
-const TOOLBAR_LABELS = {
-  hand: { zh: "\u6293\u624b\u5de5\u5177", en: "Hand tool" },
-  lasso: { zh: "\u6846\u9009\u5de5\u5177", en: "Lasso tool" },
-  space: { zh: "\u62c9\u4f38\u7a7a\u95f4\u5de5\u5177", en: "Create/remove space tool" },
-  connect: { zh: "\u5168\u5c40\u8fde\u7ebf\u5de5\u5177", en: "Global connect tool" },
-  zoomIn: { zh: "\u653e\u5927", en: "Zoom in" },
-  zoomOut: { zh: "\u7f29\u5c0f", en: "Zoom out" },
-  fit: { zh: "\u9002\u914d\u753b\u5e03", en: "Fit viewport" },
-  reset: { zh: "\u5237\u65b0\u6807\u8bb0", en: "Refresh markers" },
-  minimapOpen: { zh: "\u6253\u5f00\u5c0f\u5730\u56fe", en: "Open minimap" },
-  minimapClose: { zh: "\u5173\u95ed\u5c0f\u5730\u56fe", en: "Close minimap" },
-  simulation: { zh: "\u5207\u6362 Token Simulation", en: "Toggle Token Simulation" },
-  languageToEnglish: { zh: "\u5207\u6362\u5230\u82f1\u6587", en: "Switch to English" },
-  languageToChinese: { zh: "\u5207\u6362\u5230\u4e2d\u6587", en: "Switch to Chinese" },
-  undo: { zh: "\u64a4\u9500", en: "Undo" },
-  redo: { zh: "\u91cd\u505a", en: "Redo" },
-};
-
 function label(key) {
-  return TOOLBAR_LABELS[key][getLanguage()];
+  return getToolbarLabel(key, getLanguage());
 }
 
 function setButtonLabel(control, key) {
