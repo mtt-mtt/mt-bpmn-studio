@@ -1,0 +1,42 @@
+.custom-theme-task-accent,
+.custom-theme-gateway-core,
+.custom-theme-event-ring {
+  pointer-events: none;
+}
+
+.djs-popup.color-picker-popup {
+  border-radius: 14px;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.16);
+}
+
+.experiment-canvas-controls {
+  position: absolute;
+  z-index: 20;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid rgba(122, 79, 60, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 253, 250, 0.94);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.10);
+}
+
+.experiment-canvas-controls button {
+  min-width: 42px;
+  height: 30px;
+  padding: 0 9px;
+  border: 1px solid rgba(122, 79, 60, 0.14);
+  border-radius: 10px;
+  background: #fff;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.experiment-canvas-controls button:hover {
+  border-color: rgba(122, 79, 60, 0.32);
+  color: var(--accent-strong);
+}

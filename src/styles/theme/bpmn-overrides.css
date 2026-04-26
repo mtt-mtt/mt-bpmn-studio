@@ -1,0 +1,72 @@
+.djs-context-pad {
+  overflow: hidden;
+  border: 1px solid var(--studio-border);
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
+.djs-context-pad .entry {
+  width: 28px;
+  height: 28px;
+  margin: 2px;
+  border-radius: 4px;
+  color: #374151;
+  line-height: 28px;
+}
+
+.djs-context-pad .entry:hover {
+  background: #f3f4f6;
+  color: var(--studio-primary);
+}
+
+.djs-label text,
+.djs-visual text {
+  fill: #374151 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.custom-theme-task-header {
+  pointer-events: none;
+}
+
+.tracking-canvas-host .tracking-marker-completed .djs-visual > :first-child {
+  fill: rgba(1, 126, 132, 0.10) !important;
+  stroke: var(--studio-success) !important;
+  stroke-width: 2.5px !important;
+}
+
+.tracking-canvas-host .tracking-marker-completed.djs-connection .djs-visual > path,
+.tracking-canvas-host .djs-connection.tracking-marker-completed .djs-visual > path {
+  stroke: var(--studio-success) !important;
+}
+
+.tracking-canvas-host .tracking-marker-current .djs-visual > :first-child {
+  fill: #fff !important;
+  stroke: var(--studio-primary) !important;
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 0 8px rgba(113, 75, 103, 0.25));
+}
+
+.tracking-canvas-host .tracking-marker-pending .djs-visual > :first-child {
+  fill: #fff !important;
+  stroke: #6b7280 !important;
+  stroke-dasharray: 5, 4 !important;
+}
+
+.tracking-canvas-host .tracking-marker-error .djs-visual > :first-child {
+  fill: #fff9f2 !important;
+  stroke: var(--studio-warning) !important;
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 0 8px rgba(217, 131, 31, 0.22));
+}
+
+/* Use diagram-js-grid only. CSS background grids do not scale with the canvas. */
+.canvas-card .canvas-host,
+.canvas-card .canvas-host .djs-container {
+  background: #f9fafb !important;
+  background-image: none !important;
+  background-size: auto !important;
+}

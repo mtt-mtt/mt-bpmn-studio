@@ -1,0 +1,90 @@
+/* Open-source workbench layout: keep major surfaces inside one viewport. */
+html,
+body,
+#app {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.shell {
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebar,
+.workspace {
+  min-height: 0;
+}
+
+.sidebar {
+  overflow-y: auto;
+}
+
+.workspace {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.workspace-header {
+  flex: 0 0 auto;
+}
+
+.canvas-card,
+.tracking-card {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+}
+
+.canvas-card-split,
+.tracking-body {
+  min-height: 0;
+}
+
+.tracking-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.tracking-header {
+  flex: 0 0 auto;
+}
+
+.tracking-node-detail {
+  width: auto;
+  padding: 0;
+  border: 0;
+  border-left: 3px solid var(--studio-primary);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  pointer-events: auto;
+}
+
+.tracking-node-detail .tracking-node-pop-arrow {
+  display: none;
+}
+
+.tracking-node-detail .tracking-node-pop-head,
+.tracking-node-detail .tracking-node-pop-meta,
+.tracking-node-detail .tracking-node-pop-section {
+  padding-left: 12px;
+}
+
+.tracking-node-detail .tracking-node-pop-head {
+  margin-bottom: 12px;
+}
+
+.tracking-node-detail .tracking-node-pop-head h5 {
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+.tracking-node-detail .tracking-node-pop-row strong {
+  max-width: 190px;
+  overflow-wrap: anywhere;
+}

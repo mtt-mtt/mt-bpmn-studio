@@ -1,0 +1,20 @@
+:root {
+  --studio-primary: #714b67;
+  --studio-success: #017e84;
+  --studio-danger: #e4003a;
+  --studio-warning: #d9831f;
+  --studio-info: #4b5563;
+  --studio-bg: #f9f9f9;
+  --studio-panel: #ffffff;
+  --studio-muted-bg: #f3f4f6;
+  --studio-border: #e5e7eb;
+  --studio-grid: #d1d5db;
+}
+
+body {
+  background: var(--studio-bg);
+}
+
+[hidden] {
+  display: none !important;
+}

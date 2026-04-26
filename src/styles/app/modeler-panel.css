@@ -1,0 +1,78 @@
+.canvas-card {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+  padding: 14px;
+  border: 1px solid rgba(122, 79, 60, 0.14);
+  border-radius: 26px;
+  background: rgba(255, 253, 250, 0.84);
+  box-shadow: 0 24px 60px rgba(83, 51, 38, 0.08);
+}
+
+.canvas-card-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 14px;
+  min-height: 0;
+}
+
+.canvas-host {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(122, 79, 60, 0.10);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.96)),
+    radial-gradient(circle at center, rgba(122, 79, 60, 0.06), transparent 40%);
+}
+
+.canvas-host .djs-container {
+  background:
+    radial-gradient(rgba(122, 79, 60, 0.12) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 250, 245, 0.8), rgba(255, 255, 255, 0.95));
+  background-size: 24px 24px, auto;
+}
+
+.properties-host {
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid rgba(122, 79, 60, 0.10);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(255, 248, 241, 0.94));
+}
+
+.properties-placeholder {
+  padding: 18px 18px 0;
+  border-bottom: 1px solid rgba(122, 79, 60, 0.10);
+  background: rgba(255, 252, 248, 0.95);
+}
+
+.properties-kicker {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.properties-placeholder h3 {
+  margin: 8px 0 10px;
+  font-size: 18px;
+}
+
+.properties-placeholder p {
+  margin: 0 0 16px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+.properties-host .bio-properties-panel {
+  height: calc(100% - 100px);
+}
+
+.properties-host .bio-properties-panel,
+.properties-host .bio-properties-panel * {
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
