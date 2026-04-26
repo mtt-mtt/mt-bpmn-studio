@@ -1,0 +1,106 @@
+import approvalDemoXml from "../../../samples/approval-demo.bpmn?raw";
+import { baseNodeDetails } from "./baseNodeDetails.js";
+
+export const exceptionScenario = {
+  key: "exception",
+  xml: approvalDemoXml,
+  title: "自动建账抛单流",
+  documentLabel: "S00013",
+  triggerLabel: "确认销售",
+  stateLabel: "系统异常",
+  stateClass: "is-exception",
+  autoStatus: "自动执行失败待接管",
+  exceptionMessage: "ERP 接口连接超时，当前流程已挂起。请回到业务单据执行人工接管。",
+  defaultNodeId: "Gateway_Result",
+  markers: {
+    completed: ["StartEvent_Submit", "Task_Manager"],
+    current: [],
+    pending: ["Task_Finance", "EndEvent_Done"],
+    error: ["Gateway_Result"],
+  },
+  logs: [
+    {
+      type: "exception",
+      actor: "系统自动执行",
+      time: "2026-04-23 16:20:33",
+      title: "执行失败",
+      message: "自动过账节点执行失败，等待人工接管。",
+    },
+    {
+      type: "passed",
+      actor: "自动校验",
+      time: "2026-04-23 16:20:15",
+      title: "检查通过",
+      message: "前置校验完成，进入自动执行阶段。",
+    },
+    {
+      type: "sys",
+      actor: "系统通知",
+      time: "2026-04-23 16:20:00",
+      title: "流程启动",
+      message: "由按钮“确认销售”触发自动执行流程。",
+    },
+  ],
+  nodeDetails: {
+    ...baseNodeDetails,
+    Gateway_Result: {
+      nodeId: "Gateway_Result",
+      nodeName: "自动过账结果",
+      nodeTypeLabel: "异常网关",
+      runtimeStateLabel: "异常挂起",
+      runtimeStateClass: "is-exception",
+      ownerLabel: "系统自动执行",
+      activatedAt: "2026-04-23 16:20:15",
+      completedAt: "-",
+      definitionRows: [
+        { label: "节点模式", value: "自动执行 + 错误挂起" },
+        { label: "人工接管", value: "允许" },
+        { label: "错误来源", value: "ERP 接口超时" },
+      ],
+      events: [
+        {
+          title: "进入自动执行",
+          actor: "系统通知",
+          time: "2026-04-23 16:20:15",
+          message: "前置审批已完成，开始自动过账。",
+        },
+        {
+          title: "执行失败",
+          actor: "系统自动执行",
+          time: "2026-04-23 16:20:33",
+          message: "ERP 接口连接超时，节点进入挂起状态。",
+        },
+      ],
+    },
+    Task_Finance: {
+      nodeId: "Task_Finance",
+      nodeName: "财务复核",
+      nodeTypeLabel: "人工审批",
+      runtimeStateLabel: "尚未激活",
+      runtimeStateClass: "is-muted",
+      ownerLabel: "待定",
+      activatedAt: "-",
+      completedAt: "-",
+      definitionRows: [
+        { label: "审批方式", value: "单人审批" },
+        { label: "审批人来源", value: "财务专员" },
+        { label: "进入条件", value: "自动过账成功后激活" },
+      ],
+      events: [],
+    },
+    EndEvent_Done: {
+      nodeId: "EndEvent_Done",
+      nodeName: "完成",
+      nodeTypeLabel: "结束事件",
+      runtimeStateLabel: "尚未到达",
+      runtimeStateClass: "is-muted",
+      ownerLabel: "-",
+      activatedAt: "-",
+      completedAt: "-",
+      definitionRows: [
+        { label: "结束语义", value: "自动执行成功后正常结束" },
+      ],
+      events: [],
+    },
+  },
+};

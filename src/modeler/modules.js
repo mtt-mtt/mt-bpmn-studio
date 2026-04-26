@@ -12,39 +12,50 @@ import minimapModule from "diagram-js-minimap";
 import controlsModule from "./controls/index.js";
 import nativeCopyPasteFallbackModule from "./copy-paste/index.js";
 import customThemeRendererModule from "./custom-rendering/index.js";
+import { modelerFeatures } from "./features.js";
 import i18nModule from "./i18n/index.js";
 import studioPaletteModule from "./palette/index.js";
 import studioPropertiesModule from "./properties/index.js";
 import workflowRulesModule from "./rules/index.js";
 import simulationColorsModule from "./simulation-colors/index.js";
 
+function when(enabled, modules) {
+  return enabled ? modules : [];
+}
+
 const canvasSupportModules = [
-  minimapModule,
-  gridModule,
+  ...when(modelerFeatures.minimap, [minimapModule]),
+  ...when(modelerFeatures.grid, [gridModule]),
 ];
 
 const productivityModules = [
-  nativeCopyPasteModule,
-  nativeCopyPasteFallbackModule,
-  colorPickerModule,
-  lintModule,
-  tokenSimulationModule,
-  simulationSupportModule,
-  simulationColorsModule,
+  ...when(modelerFeatures.nativeCopyPaste, [
+    nativeCopyPasteModule,
+    nativeCopyPasteFallbackModule,
+  ]),
+  ...when(modelerFeatures.colorPicker, [colorPickerModule]),
+  ...when(modelerFeatures.lint, [lintModule]),
+  ...when(modelerFeatures.simulation, [
+    tokenSimulationModule,
+    simulationSupportModule,
+    simulationColorsModule,
+  ]),
 ];
 
 const propertiesPanelModules = [
-  BpmnPropertiesPanelModule,
-  BpmnPropertiesProviderModule,
-  studioPropertiesModule,
+  ...when(modelerFeatures.propertiesPanel, [
+    BpmnPropertiesPanelModule,
+    BpmnPropertiesProviderModule,
+  ]),
+  ...when(modelerFeatures.studioProperties, [studioPropertiesModule]),
 ];
 
 const studioExtensionModules = [
-  i18nModule,
-  customThemeRendererModule,
-  workflowRulesModule,
-  studioPaletteModule,
-  controlsModule,
+  ...when(modelerFeatures.i18n, [i18nModule]),
+  ...when(modelerFeatures.customRendering, [customThemeRendererModule]),
+  ...when(modelerFeatures.workflowRules, [workflowRulesModule]),
+  ...when(modelerFeatures.studioPalette, [studioPaletteModule]),
+  ...when(modelerFeatures.canvasControls, [controlsModule]),
 ];
 
 export const modelerModules = [

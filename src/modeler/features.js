@@ -1,0 +1,15 @@
+export const modelerFeatures = {
+  canvasControls: true,
+  colorPicker: true,
+  customRendering: true,
+  grid: true,
+  i18n: true,
+  lint: true,
+  minimap: true,
+  nativeCopyPaste: true,
+  propertiesPanel: true,
+  simulation: true,
+  studioPalette: true,
+  studioProperties: true,
+  workflowRules: true,
+};

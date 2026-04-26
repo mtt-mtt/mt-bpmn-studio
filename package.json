@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "smoke": "node scripts/smoke.mjs && npm run build"
   },
   "dependencies": {
     "bpmn-js": "^18.15.0",

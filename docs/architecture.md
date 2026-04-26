@@ -102,6 +102,24 @@
 - `propertiesPanelModules`：标准属性面板和自定义属性扩展。
 - `studioExtensionModules`：i18n、自定义渲染、规则、palette、画布控件。
 
+### `src/modeler/features.js`
+
+集中维护建模器能力开关。当前默认全部开启，保证能力实验场功能完整。后续如果需要做轻量版、只读版或按需加载，可以优先从这里调整：
+
+- `minimap`
+- `grid`
+- `nativeCopyPaste`
+- `colorPicker`
+- `lint`
+- `simulation`
+- `propertiesPanel`
+- `studioProperties`
+- `i18n`
+- `customRendering`
+- `workflowRules`
+- `studioPalette`
+- `canvasControls`
+
 ## 样式分层
 
 ### `src/styles/app.css`
@@ -132,7 +150,6 @@ BPMN Studio 主题入口，按原顺序导入：
 ## 推荐后续治理
 
 1. 清理 `palette-compat.css` 中历史遗留的 palette 兼容规则。
-2. 将追踪 mock 数据按场景拆成独立文件。
-3. 增加 `features` 配置，用于控制 lint、simulation、minimap、color picker 等插件开关。
-4. 增加最小 smoke test，覆盖默认启动和构建。
-5. 继续补充插件开发说明，帮助后续新增 BPMN 能力。
+2. 继续完善追踪场景数据，必要时为每个场景增加独立说明。
+3. 增加最小 smoke test，覆盖默认启动和构建。
+4. 继续补充插件开发说明，帮助后续新增 BPMN 能力。
