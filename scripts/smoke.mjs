@@ -12,6 +12,7 @@ const requiredFiles = [
   "src/app/templates/workspaceHeaderTemplate.js",
   "src/app/toolbarController.js",
   "src/app/viewController.js",
+  "src/app/viewModes.js",
   "src/app/workbench.js",
   "src/modeler/createModeler.js",
   "src/modeler/features.js",

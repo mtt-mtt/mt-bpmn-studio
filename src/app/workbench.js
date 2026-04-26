@@ -5,6 +5,7 @@ import { createViewer } from "../viewer/createViewer.js";
 import { createToolbarController } from "./toolbarController.js";
 import { createViewController } from "./viewController.js";
 import { disposeAll } from "./lifecycle.js";
+import { VIEW_MODES } from "./viewModes.js";
 
 export function createWorkbench({ root, refs }) {
   const modeler = createModeler(refs.canvas, refs.propertiesPanel);
@@ -50,7 +51,7 @@ export function createWorkbench({ root, refs }) {
       await modelerController.loadDefaultDiagram();
       await trackingController.loadScenario("running");
       modelerController.setInitialState();
-      viewController.setView("modeler");
+      viewController.setView(VIEW_MODES.MODELER);
       eventDisposers = [
         modelerController.bindEvents(),
         trackingController.bindEvents(),

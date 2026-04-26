@@ -1,4 +1,5 @@
 import { disposeAll, listen } from "./lifecycle.js";
+import { VIEW_STATUS_LABELS, isTrackingView } from "./viewModes.js";
 
 export function createViewController({
   root,
@@ -8,10 +9,10 @@ export function createViewController({
   trackingController,
 }) {
   const setView = (view) => {
-    const isTracking = view === "tracking";
+    const isTracking = isTrackingView(view);
     modelerPanel.hidden = isTracking;
     trackingPanel.hidden = !isTracking;
-    viewStatus.textContent = isTracking ? "追踪模式" : "建模模式";
+    viewStatus.textContent = VIEW_STATUS_LABELS[view] || VIEW_STATUS_LABELS.modeler;
 
     root.querySelectorAll("[data-view]").forEach((button) => {
       button.classList.toggle("is-active", button.dataset.view === view);
