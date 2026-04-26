@@ -3,6 +3,7 @@ import { createModeler } from "../modeler/createModeler.js";
 import { createTrackingController } from "../tracking/controller.js";
 import { createViewer } from "../viewer/createViewer.js";
 import { appTemplate } from "./template.js";
+import { createToolbarController } from "./toolbarController.js";
 import { createViewController } from "./viewController.js";
 
 export async function bootstrapApp(root) {
@@ -44,6 +45,12 @@ export async function bootstrapApp(root) {
     viewStatus,
     trackingController,
   });
+  const toolbarController = createToolbarController({
+    root,
+    modelerController,
+    trackingController,
+    viewController,
+  });
 
   engineStatus.textContent = "已就绪";
 
@@ -54,49 +61,5 @@ export async function bootstrapApp(root) {
   modelerController.bindEvents();
   trackingController.bindEvents();
   viewController.bindEvents();
-
-  root.querySelector('[data-action="new"]').addEventListener("click", async () => {
-    await modelerController.loadDefaultDiagram();
-  });
-
-  root.querySelector('[data-action="open"]').addEventListener("click", () => {
-    modelerController.openFilePicker();
-  });
-
-  root.querySelector('[data-action="fit"]').addEventListener("click", () => {
-    if (viewController.isTrackingActive()) {
-      trackingController.fitCanvas();
-      if (trackingController.getActiveNodeId()) {
-        trackingController.setActiveNode(trackingController.getActiveNodeId());
-      }
-      return;
-    }
-
-    modelerController.fitCanvas();
-  });
-
-  root.querySelector('[data-action="toggle-lint"]').addEventListener("click", () => {
-    modelerController.toggleLint();
-  });
-
-  root.querySelector('[data-action="toggle-simulation"]').addEventListener("click", () => {
-    modelerController.toggleSimulation();
-  });
-
-  root.querySelector('[data-action="undo"]').addEventListener("click", () => {
-    modelerController.undo();
-  });
-
-  root.querySelector('[data-action="redo"]').addEventListener("click", () => {
-    modelerController.redo();
-  });
-
-  root.querySelector('[data-action="save-xml"]').addEventListener("click", async () => {
-    await modelerController.saveXml();
-  });
-
-  root.querySelector('[data-action="save-svg"]').addEventListener("click", async () => {
-    await modelerController.saveSvg();
-  });
-
+  toolbarController.bindEvents();
 }
