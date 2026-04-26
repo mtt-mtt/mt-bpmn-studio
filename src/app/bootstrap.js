@@ -1,8 +1,7 @@
+import { createModelerController } from "../modeler/controller.js";
 import { createModeler } from "../modeler/createModeler.js";
-import { createDefaultDiagram } from "../modeler/defaultDiagram.js";
 import { createTrackingController } from "../tracking/controller.js";
 import { createViewer } from "../viewer/createViewer.js";
-import { downloadFile } from "./downloadFile.js";
 import { appTemplate } from "./template.js";
 
 export async function bootstrapApp(root) {
@@ -23,29 +22,22 @@ export async function bootstrapApp(root) {
 
   const modeler = createModeler(canvas, propertiesPanel);
   const viewer = createViewer(trackingCanvas);
+  const modelerController = createModelerController({
+    modeler,
+    fileInput,
+    diagramStatus,
+    dirtyStatus,
+    lintStatus,
+    simulationStatus,
+  });
   const trackingController = createTrackingController({
     root,
     viewer,
     trackingCanvas,
     trackingPanel,
   });
-  const linting = modeler.get("linting");
-  const simulationSupport = modeler.get("simulationSupport");
-  const eventBus = modeler.get("eventBus");
 
   engineStatus.textContent = "已就绪";
-
-  const setDirtyState = (isDirty) => {
-    dirtyStatus.textContent = isDirty ? "有未导出修改" : "无";
-  };
-
-  const setLintState = () => {
-    lintStatus.textContent = linting.isActive() ? "推荐规则已开启" : "已关闭";
-  };
-
-  const setSimulationState = (active) => {
-    simulationStatus.textContent = active ? "Token Simulation 已开启" : "已关闭";
-  };
 
   const setView = (view) => {
     const isTracking = view === "tracking";
@@ -69,39 +61,19 @@ export async function bootstrapApp(root) {
     }
   };
 
-  modeler.on("commandStack.changed", () => {
-    setDirtyState(true);
-  });
-
-  eventBus.on("tokenSimulation.toggleMode", (event) => {
-    setSimulationState(Boolean(event.active));
-  });
-
-  async function loadDiagram(xml, label) {
-    try {
-      await modeler.importXML(xml);
-      modeler.get("canvas").zoom("fit-viewport");
-      diagramStatus.textContent = label;
-      setDirtyState(false);
-    } catch (error) {
-      diagramStatus.textContent = "加载失败";
-      console.error("Failed to load diagram", error);
-    }
-  }
-
-  await loadDiagram(createDefaultDiagram(), "默认空白流程");
+  await modelerController.loadDefaultDiagram();
   await trackingController.loadScenario("running");
-  setLintState();
-  setSimulationState(false);
+  modelerController.setInitialState();
   setView("modeler");
+  modelerController.bindEvents();
   trackingController.bindEvents();
 
   root.querySelector('[data-action="new"]').addEventListener("click", async () => {
-    await loadDiagram(createDefaultDiagram(), "默认空白流程");
+    await modelerController.loadDefaultDiagram();
   });
 
   root.querySelector('[data-action="open"]').addEventListener("click", () => {
-    fileInput.click();
+    modelerController.openFilePicker();
   });
 
   root.querySelector('[data-action="fit"]').addEventListener("click", () => {
@@ -113,46 +85,31 @@ export async function bootstrapApp(root) {
       return;
     }
 
-    modeler.get("canvas").zoom("fit-viewport");
+    modelerController.fitCanvas();
   });
 
   root.querySelector('[data-action="toggle-lint"]').addEventListener("click", () => {
-    linting.toggle();
-    setLintState();
+    modelerController.toggleLint();
   });
 
   root.querySelector('[data-action="toggle-simulation"]').addEventListener("click", () => {
-    simulationSupport.toggleSimulation();
+    modelerController.toggleSimulation();
   });
 
   root.querySelector('[data-action="undo"]').addEventListener("click", () => {
-    modeler.get("commandStack").undo();
+    modelerController.undo();
   });
 
   root.querySelector('[data-action="redo"]').addEventListener("click", () => {
-    modeler.get("commandStack").redo();
+    modelerController.redo();
   });
 
   root.querySelector('[data-action="save-xml"]').addEventListener("click", async () => {
-    const { xml } = await modeler.saveXML({ format: true });
-    downloadFile(xml, "workflow.bpmn", "application/xml;charset=utf-8");
-    setDirtyState(false);
+    await modelerController.saveXml();
   });
 
   root.querySelector('[data-action="save-svg"]').addEventListener("click", async () => {
-    const { svg } = await modeler.saveSVG();
-    downloadFile(svg, "workflow.svg", "image/svg+xml;charset=utf-8");
-  });
-
-  fileInput.addEventListener("change", async (event) => {
-    const [file] = event.target.files || [];
-    if (!file) {
-      return;
-    }
-
-    const xml = await file.text();
-    await loadDiagram(xml, `已导入：${file.name}`);
-    fileInput.value = "";
+    await modelerController.saveSvg();
   });
 
   root.querySelectorAll("[data-view]").forEach((button) => {
