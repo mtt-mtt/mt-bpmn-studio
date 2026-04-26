@@ -1,5 +1,6 @@
 import { trackingScenarios } from "./mockData.js";
 import { getTrackingDomRefs } from "./domRefs.js";
+import { applyTrackingMarkers } from "./markers.js";
 import {
   buildEmptyNodeDetailHtml,
   buildFallbackNodeDetail,
@@ -8,18 +9,6 @@ import {
   isSelectableElement,
   renderLogs,
 } from "./rendering.js";
-
-function applyViewerMarkers(viewer, scenario) {
-  const canvas = viewer.get("canvas");
-  Object.entries({
-    "tracking-marker-completed": scenario.markers.completed || [],
-    "tracking-marker-current": scenario.markers.current || [],
-    "tracking-marker-pending": scenario.markers.pending || [],
-    "tracking-marker-error": scenario.markers.error || [],
-  }).forEach(([markerClass, ids]) => {
-    ids.forEach((id) => canvas.addMarker(id, markerClass));
-  });
-}
 
 export function createTrackingController({ root, viewer, trackingCanvas, trackingPanel }) {
   const viewerCanvas = viewer.get("canvas");
@@ -99,7 +88,7 @@ export function createTrackingController({ root, viewer, trackingCanvas, trackin
       fitCanvas();
     }
 
-    applyViewerMarkers(viewer, scenario);
+    applyTrackingMarkers(viewer, scenario);
 
     refs.title.textContent = scenario.title;
     refs.document.textContent = scenario.documentLabel;
