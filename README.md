@@ -78,3 +78,8 @@ src/
 - 继续清理历史重复 CSS，特别是 palette 和 BPMN 覆盖样式。
 - 补充最小 smoke test。
 - 完善更多开源项目说明和贡献约定。
+
+## 更多文档
+
+- [架构说明](docs/architecture.md)
+- [插件扩展指南](docs/plugin-guide.md)
