@@ -5,6 +5,7 @@ import { applyTrackingMarkers } from "./markers.js";
 import { getDefaultSelectedNodeId } from "./rendering.js";
 import { renderTrackingScenario } from "./scenarioView.js";
 import { createTrackingSelection } from "./selection.js";
+import { createTrackingTabs } from "./tabs.js";
 
 export function createTrackingController({ root, viewer, trackingCanvas, trackingPanel }) {
   const viewerCanvas = viewer.get("canvas");
@@ -13,17 +14,8 @@ export function createTrackingController({ root, viewer, trackingCanvas, trackin
 
   let currentScenarioKey = "running";
 
-  const setTab = (tab) => {
-    refs.tabs.forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.trackingTab === tab);
-    });
-
-    refs.panels.forEach((panel) => {
-      panel.hidden = panel.dataset.trackingPanel !== tab;
-    });
-  };
-
-  const selection = createTrackingSelection({ viewer, refs, setTab });
+  const tabs = createTrackingTabs(refs);
+  const selection = createTrackingSelection({ viewer, refs, tabs });
 
   const fitCanvas = () => {
     const width = trackingCanvas.clientWidth;
@@ -60,7 +52,7 @@ export function createTrackingController({ root, viewer, trackingCanvas, trackin
       loadScenario,
       refs,
       selection,
-      setTab,
+      tabs,
       trackingScenarios,
       viewerCanvas,
       viewerEventBus,

@@ -7,7 +7,7 @@ export function bindTrackingEvents({
   loadScenario,
   refs,
   selection,
-  setTab,
+  tabs,
   trackingScenarios,
   viewerCanvas,
   viewerEventBus,
@@ -39,7 +39,7 @@ export function bindTrackingEvents({
 
   refs.tabs.forEach((button) => {
     disposers.push(listen(button, "click", () => {
-      setTab(button.dataset.trackingTab);
+      tabs.setTab(button.dataset.trackingTab);
     }));
   });
 

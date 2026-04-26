@@ -27,6 +27,7 @@ const requiredFiles = [
   "src/tracking/events.js",
   "src/tracking/scenarioView.js",
   "src/tracking/selection.js",
+  "src/tracking/tabs.js",
   "src/tracking/mockData.js",
   "src/tracking/scenarios/runningScenario.js",
   "src/tracking/scenarios/exceptionScenario.js",

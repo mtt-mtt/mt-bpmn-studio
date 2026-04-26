@@ -4,7 +4,7 @@ import {
   buildNodeDetailHtml,
 } from "./rendering.js";
 
-export function createTrackingSelection({ viewer, refs, setTab }) {
+export function createTrackingSelection({ viewer, refs, tabs }) {
   const viewerCanvas = viewer.get("canvas");
   const elementRegistry = viewer.get("elementRegistry");
   let activeNodeId = "";
@@ -20,7 +20,7 @@ export function createTrackingSelection({ viewer, refs, setTab }) {
       }
       activeNodeId = "";
       clearNodeDetail();
-      setTab("log");
+      tabs.setLogTab();
       return;
     }
 
@@ -39,7 +39,7 @@ export function createTrackingSelection({ viewer, refs, setTab }) {
 
     const detail = scenario.nodeDetails?.[nodeId] || buildFallbackNodeDetail(viewer, scenario, nodeId);
     refs.nodeDetail.innerHTML = buildNodeDetailHtml(detail);
-    setTab("detail");
+    tabs.setDetailTab();
   };
 
   return {
