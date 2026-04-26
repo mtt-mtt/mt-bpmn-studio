@@ -1,4 +1,5 @@
 import { trackingScenarios } from "./mockData.js";
+import { getTrackingDomRefs } from "./domRefs.js";
 import {
   buildEmptyNodeDetailHtml,
   buildFallbackNodeDetail,
@@ -24,32 +25,23 @@ export function createTrackingController({ root, viewer, trackingCanvas, trackin
   const viewerCanvas = viewer.get("canvas");
   const viewerEventBus = viewer.get("eventBus");
   const elementRegistry = viewer.get("elementRegistry");
-  const trackingTitle = root.querySelector('[data-role="tracking-title"]');
-  const trackingDocument = root.querySelector('[data-role="tracking-document"]');
-  const trackingTrigger = root.querySelector('[data-role="tracking-trigger"]');
-  const trackingState = root.querySelector('[data-role="tracking-state"]');
-  const trackingBanner = root.querySelector('[data-role="tracking-banner"]');
-  const trackingAutoStatus = root.querySelector('[data-role="tracking-auto-status"]');
-  const trackingNodeDetail = root.querySelector('[data-role="tracking-node-detail"]');
-  const trackingLogList = root.querySelector('[data-role="tracking-log-list"]');
-  const trackingTabs = [...root.querySelectorAll("[data-tracking-tab]")];
-  const trackingPanels = [...root.querySelectorAll("[data-tracking-panel]")];
+  const refs = getTrackingDomRefs(root);
 
   let currentScenarioKey = "running";
   let activeTrackingNodeId = "";
 
   const setTab = (tab) => {
-    trackingTabs.forEach((button) => {
+    refs.tabs.forEach((button) => {
       button.classList.toggle("is-active", button.dataset.trackingTab === tab);
     });
 
-    trackingPanels.forEach((panel) => {
+    refs.panels.forEach((panel) => {
       panel.hidden = panel.dataset.trackingPanel !== tab;
     });
   };
 
   const clearNodeDetail = () => {
-    trackingNodeDetail.innerHTML = buildEmptyNodeDetailHtml();
+    refs.nodeDetail.innerHTML = buildEmptyNodeDetailHtml();
   };
 
   const fitCanvas = () => {
@@ -91,7 +83,7 @@ export function createTrackingController({ root, viewer, trackingCanvas, trackin
     }
 
     const detail = scenario.nodeDetails?.[nodeId] || buildFallbackNodeDetail(viewer, scenario, nodeId);
-    trackingNodeDetail.innerHTML = buildNodeDetailHtml(detail);
+    refs.nodeDetail.innerHTML = buildNodeDetailHtml(detail);
     setTab("detail");
   };
 
@@ -109,18 +101,18 @@ export function createTrackingController({ root, viewer, trackingCanvas, trackin
 
     applyViewerMarkers(viewer, scenario);
 
-    trackingTitle.textContent = scenario.title;
-    trackingDocument.textContent = scenario.documentLabel;
-    trackingTrigger.textContent = scenario.triggerLabel;
-    trackingState.textContent = scenario.stateLabel;
-    trackingState.className = `tracking-state-tag ${scenario.stateClass}`;
-    trackingBanner.hidden = !scenario.exceptionMessage;
-    trackingBanner.textContent = scenario.exceptionMessage;
-    trackingAutoStatus.hidden = !scenario.autoStatus;
-    trackingAutoStatus.textContent = scenario.autoStatus;
-    renderLogs(trackingLogList, scenario.logs);
+    refs.title.textContent = scenario.title;
+    refs.document.textContent = scenario.documentLabel;
+    refs.trigger.textContent = scenario.triggerLabel;
+    refs.state.textContent = scenario.stateLabel;
+    refs.state.className = `tracking-state-tag ${scenario.stateClass}`;
+    refs.banner.hidden = !scenario.exceptionMessage;
+    refs.banner.textContent = scenario.exceptionMessage;
+    refs.autoStatus.hidden = !scenario.autoStatus;
+    refs.autoStatus.textContent = scenario.autoStatus;
+    renderLogs(refs.logList, scenario.logs);
 
-    root.querySelectorAll("[data-scenario]").forEach((button) => {
+    refs.scenarioButtons.forEach((button) => {
       button.classList.toggle("is-active", button.dataset.scenario === scenarioKey);
     });
 
@@ -140,19 +132,19 @@ export function createTrackingController({ root, viewer, trackingCanvas, trackin
       setActiveNode("");
     });
 
-    root.querySelectorAll("[data-scenario]").forEach((button) => {
+    refs.scenarioButtons.forEach((button) => {
       button.addEventListener("click", async () => {
         await loadScenario(button.dataset.scenario);
       });
     });
 
-    trackingTabs.forEach((button) => {
+    refs.tabs.forEach((button) => {
       button.addEventListener("click", () => {
         setTab(button.dataset.trackingTab);
       });
     });
 
-    root.querySelectorAll("[data-tracking-tool]").forEach((button) => {
+    refs.tools.forEach((button) => {
       button.addEventListener("click", async () => {
         const tool = button.dataset.trackingTool;
 
