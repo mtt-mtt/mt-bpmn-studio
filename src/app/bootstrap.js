@@ -3,6 +3,7 @@ import { createModeler } from "../modeler/createModeler.js";
 import { createTrackingController } from "../tracking/controller.js";
 import { createViewer } from "../viewer/createViewer.js";
 import { appTemplate } from "./template.js";
+import { createViewController } from "./viewController.js";
 
 export async function bootstrapApp(root) {
   root.innerHTML = appTemplate;
@@ -36,37 +37,23 @@ export async function bootstrapApp(root) {
     trackingCanvas,
     trackingPanel,
   });
+  const viewController = createViewController({
+    root,
+    modelerPanel,
+    trackingPanel,
+    viewStatus,
+    trackingController,
+  });
 
   engineStatus.textContent = "已就绪";
-
-  const setView = (view) => {
-    const isTracking = view === "tracking";
-    modelerPanel.hidden = isTracking;
-    trackingPanel.hidden = !isTracking;
-    viewStatus.textContent = isTracking ? "追踪模式" : "建模模式";
-
-    root.querySelectorAll("[data-view]").forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.view === view);
-    });
-
-    if (isTracking) {
-      requestAnimationFrame(() => {
-        trackingController.fitCanvas();
-        if (trackingController.getActiveNodeId()) {
-          trackingController.setActiveNode(trackingController.getActiveNodeId());
-        }
-      });
-    } else {
-      trackingController.clearNodeDetail();
-    }
-  };
 
   await modelerController.loadDefaultDiagram();
   await trackingController.loadScenario("running");
   modelerController.setInitialState();
-  setView("modeler");
+  viewController.setView("modeler");
   modelerController.bindEvents();
   trackingController.bindEvents();
+  viewController.bindEvents();
 
   root.querySelector('[data-action="new"]').addEventListener("click", async () => {
     await modelerController.loadDefaultDiagram();
@@ -77,7 +64,7 @@ export async function bootstrapApp(root) {
   });
 
   root.querySelector('[data-action="fit"]').addEventListener("click", () => {
-    if (!trackingPanel.hidden) {
+    if (viewController.isTrackingActive()) {
       trackingController.fitCanvas();
       if (trackingController.getActiveNodeId()) {
         trackingController.setActiveNode(trackingController.getActiveNodeId());
@@ -110,12 +97,6 @@ export async function bootstrapApp(root) {
 
   root.querySelector('[data-action="save-svg"]').addEventListener("click", async () => {
     await modelerController.saveSvg();
-  });
-
-  root.querySelectorAll("[data-view]").forEach((button) => {
-    button.addEventListener("click", () => {
-      setView(button.dataset.view);
-    });
   });
 
 }
