@@ -1,29 +1,9 @@
 import { createModeler } from "../modeler/createModeler.js";
 import { createDefaultDiagram } from "../modeler/defaultDiagram.js";
-import { trackingScenarios } from "../tracking/mockData.js";
-import {
-  buildEmptyNodeDetailHtml,
-  buildFallbackNodeDetail,
-  buildNodeDetailHtml,
-  getDefaultSelectedNodeId,
-  isSelectableElement,
-  renderLogs,
-} from "../tracking/rendering.js";
+import { createTrackingController } from "../tracking/controller.js";
 import { createViewer } from "../viewer/createViewer.js";
 import { downloadFile } from "./downloadFile.js";
 import { appTemplate } from "./template.js";
-
-function applyViewerMarkers(viewer, scenario) {
-  const canvas = viewer.get("canvas");
-  Object.entries({
-    "tracking-marker-completed": scenario.markers.completed || [],
-    "tracking-marker-current": scenario.markers.current || [],
-    "tracking-marker-pending": scenario.markers.pending || [],
-    "tracking-marker-error": scenario.markers.error || [],
-  }).forEach(([markerClass, ids]) => {
-    ids.forEach((id) => canvas.addMarker(id, markerClass));
-  });
-}
 
 export async function bootstrapApp(root) {
   root.innerHTML = appTemplate;
@@ -40,44 +20,20 @@ export async function bootstrapApp(root) {
   const fileInput = root.querySelector('[data-role="file-input"]');
   const modelerPanel = root.querySelector('[data-panel="modeler"]');
   const trackingPanel = root.querySelector('[data-panel="tracking"]');
-  const trackingTitle = root.querySelector('[data-role="tracking-title"]');
-  const trackingDocument = root.querySelector('[data-role="tracking-document"]');
-  const trackingTrigger = root.querySelector('[data-role="tracking-trigger"]');
-  const trackingState = root.querySelector('[data-role="tracking-state"]');
-  const trackingBanner = root.querySelector('[data-role="tracking-banner"]');
-  const trackingAutoStatus = root.querySelector('[data-role="tracking-auto-status"]');
-  const trackingNodeDetail = root.querySelector('[data-role="tracking-node-detail"]');
-  const trackingLogList = root.querySelector('[data-role="tracking-log-list"]');
-  const trackingTabs = [...root.querySelectorAll("[data-tracking-tab]")];
-  const trackingPanels = [...root.querySelectorAll("[data-tracking-panel]")];
 
   const modeler = createModeler(canvas, propertiesPanel);
   const viewer = createViewer(trackingCanvas);
+  const trackingController = createTrackingController({
+    root,
+    viewer,
+    trackingCanvas,
+    trackingPanel,
+  });
   const linting = modeler.get("linting");
   const simulationSupport = modeler.get("simulationSupport");
   const eventBus = modeler.get("eventBus");
-  const viewerCanvas = viewer.get("canvas");
-  const viewerEventBus = viewer.get("eventBus");
-  const elementRegistry = viewer.get("elementRegistry");
-
-  let currentScenarioKey = "running";
-  let activeTrackingNodeId = "";
 
   engineStatus.textContent = "已就绪";
-
-  const setTrackingTab = (tab) => {
-    trackingTabs.forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.trackingTab === tab);
-    });
-
-    trackingPanels.forEach((panel) => {
-      panel.hidden = panel.dataset.trackingPanel !== tab;
-    });
-  };
-
-  const clearNodeDetail = () => {
-    trackingNodeDetail.innerHTML = buildEmptyNodeDetailHtml();
-  };
 
   const setDirtyState = (isDirty) => {
     dirtyStatus.textContent = isDirty ? "有未导出修改" : "无";
@@ -89,49 +45,6 @@ export async function bootstrapApp(root) {
 
   const setSimulationState = (active) => {
     simulationStatus.textContent = active ? "Token Simulation 已开启" : "已关闭";
-  };
-
-  const fitTrackingCanvas = () => {
-    const width = trackingCanvas.clientWidth;
-    const height = trackingCanvas.clientHeight;
-
-    if (!width || !height) {
-      return;
-    }
-
-    viewerCanvas.resized();
-    viewerCanvas.zoom("fit-viewport");
-  };
-
-  const setActiveTrackingNode = (nodeId) => {
-    const scenario = trackingScenarios[currentScenarioKey];
-
-    if (!nodeId) {
-      if (activeTrackingNodeId) {
-        viewerCanvas.removeMarker(activeTrackingNodeId, "tracking-marker-selected");
-      }
-      activeTrackingNodeId = "";
-      clearNodeDetail();
-      setTrackingTab("log");
-      return;
-    }
-
-    if (activeTrackingNodeId && activeTrackingNodeId !== nodeId) {
-      viewerCanvas.removeMarker(activeTrackingNodeId, "tracking-marker-selected");
-    }
-
-    activeTrackingNodeId = nodeId;
-    viewerCanvas.addMarker(nodeId, "tracking-marker-selected");
-
-    const element = elementRegistry.get(nodeId);
-    if (!element) {
-      clearNodeDetail();
-      return;
-    }
-
-    const detail = scenario.nodeDetails?.[nodeId] || buildFallbackNodeDetail(viewer, scenario, nodeId);
-    trackingNodeDetail.innerHTML = buildNodeDetailHtml(detail);
-    setTrackingTab("detail");
   };
 
   const setView = (view) => {
@@ -146,46 +59,14 @@ export async function bootstrapApp(root) {
 
     if (isTracking) {
       requestAnimationFrame(() => {
-        fitTrackingCanvas();
-        if (activeTrackingNodeId) {
-          setActiveTrackingNode(activeTrackingNodeId);
+        trackingController.fitCanvas();
+        if (trackingController.getActiveNodeId()) {
+          trackingController.setActiveNode(trackingController.getActiveNodeId());
         }
       });
     } else {
-      clearNodeDetail();
+      trackingController.clearNodeDetail();
     }
-  };
-
-  const loadTrackingScenario = async (scenarioKey) => {
-    const scenario = trackingScenarios[scenarioKey];
-    currentScenarioKey = scenarioKey;
-    activeTrackingNodeId = "";
-    clearNodeDetail();
-
-    await viewer.importXML(scenario.xml);
-
-    if (!trackingPanel.hidden) {
-      fitTrackingCanvas();
-    }
-
-    applyViewerMarkers(viewer, scenario);
-
-    trackingTitle.textContent = scenario.title;
-    trackingDocument.textContent = scenario.documentLabel;
-    trackingTrigger.textContent = scenario.triggerLabel;
-    trackingState.textContent = scenario.stateLabel;
-    trackingState.className = `tracking-state-tag ${scenario.stateClass}`;
-    trackingBanner.hidden = !scenario.exceptionMessage;
-    trackingBanner.textContent = scenario.exceptionMessage;
-    trackingAutoStatus.hidden = !scenario.autoStatus;
-    trackingAutoStatus.textContent = scenario.autoStatus;
-    renderLogs(trackingLogList, scenario.logs);
-
-    root.querySelectorAll("[data-scenario]").forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.scenario === scenarioKey);
-    });
-
-    setActiveTrackingNode(getDefaultSelectedNodeId(scenario));
   };
 
   modeler.on("commandStack.changed", () => {
@@ -194,18 +75,6 @@ export async function bootstrapApp(root) {
 
   eventBus.on("tokenSimulation.toggleMode", (event) => {
     setSimulationState(Boolean(event.active));
-  });
-
-  viewerEventBus.on("element.click", ({ element }) => {
-    if (!isSelectableElement(element)) {
-      return;
-    }
-
-    setActiveTrackingNode(element.id);
-  });
-
-  viewerEventBus.on("canvas.click", () => {
-    setActiveTrackingNode("");
   });
 
   async function loadDiagram(xml, label) {
@@ -221,10 +90,11 @@ export async function bootstrapApp(root) {
   }
 
   await loadDiagram(createDefaultDiagram(), "默认空白流程");
-  await loadTrackingScenario(currentScenarioKey);
+  await trackingController.loadScenario("running");
   setLintState();
   setSimulationState(false);
   setView("modeler");
+  trackingController.bindEvents();
 
   root.querySelector('[data-action="new"]').addEventListener("click", async () => {
     await loadDiagram(createDefaultDiagram(), "默认空白流程");
@@ -236,9 +106,9 @@ export async function bootstrapApp(root) {
 
   root.querySelector('[data-action="fit"]').addEventListener("click", () => {
     if (!trackingPanel.hidden) {
-      fitTrackingCanvas();
-      if (activeTrackingNodeId) {
-        setActiveTrackingNode(activeTrackingNodeId);
+      trackingController.fitCanvas();
+      if (trackingController.getActiveNodeId()) {
+        trackingController.setActiveNode(trackingController.getActiveNodeId());
       }
       return;
     }
@@ -291,39 +161,4 @@ export async function bootstrapApp(root) {
     });
   });
 
-  root.querySelectorAll("[data-scenario]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      await loadTrackingScenario(button.dataset.scenario);
-    });
-  });
-
-  trackingTabs.forEach((button) => {
-    button.addEventListener("click", () => {
-      setTrackingTab(button.dataset.trackingTab);
-    });
-  });
-
-  root.querySelectorAll("[data-tracking-tool]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      const tool = button.dataset.trackingTool;
-
-      if (tool === "fit") {
-        fitTrackingCanvas();
-        return;
-      }
-
-      if (tool === "refresh") {
-        await loadTrackingScenario(currentScenarioKey);
-        return;
-      }
-
-      const currentZoom = viewerCanvas.zoom();
-      if (tool === "zoom-in") {
-        viewerCanvas.zoom(Math.min(currentZoom + 0.15, 2.5));
-      }
-      if (tool === "zoom-out") {
-        viewerCanvas.zoom(Math.max(currentZoom - 0.15, 0.25));
-      }
-    });
-  });
 }
