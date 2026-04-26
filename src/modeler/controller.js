@@ -1,6 +1,5 @@
-import { downloadFile } from "../app/downloadFile.js";
 import { disposeAll, listen, onEmitter } from "../app/lifecycle.js";
-import { createDefaultDiagram } from "./defaultDiagram.js";
+import { createModelerDiagramActions } from "./diagramActions.js";
 import { createModelerStatus } from "./status.js";
 
 export function createModelerController({
@@ -21,17 +20,7 @@ export function createModelerController({
     simulationStatus,
     linting,
   });
-
-  const loadDiagram = async (xml, label) => {
-    try {
-      await modeler.importXML(xml);
-      modeler.get("canvas").zoom("fit-viewport");
-      status.markDiagramLoaded(label);
-    } catch (error) {
-      status.markDiagramLoadFailed();
-      console.error("Failed to load diagram", error);
-    }
-  };
+  const diagramActions = createModelerDiagramActions({ modeler, status });
 
   const bindEvents = () => {
     const disposers = [];
@@ -51,7 +40,7 @@ export function createModelerController({
       }
 
       const xml = await file.text();
-      await loadDiagram(xml, `已导入：${file.name}`);
+      await diagramActions.loadDiagram(xml, `已导入：${file.name}`);
       fileInput.value = "";
     };
 
@@ -64,23 +53,14 @@ export function createModelerController({
     return () => disposeAll(disposers);
   };
 
-  const loadDefaultDiagram = () => loadDiagram(createDefaultDiagram(), "默认空白流程");
-
   return {
     bindEvents,
-    fitCanvas: () => modeler.get("canvas").zoom("fit-viewport"),
-    loadDefaultDiagram,
+    fitCanvas: diagramActions.fitCanvas,
+    loadDefaultDiagram: diagramActions.loadDefaultDiagram,
     openFilePicker: () => fileInput.click(),
     redo: () => modeler.get("commandStack").redo(),
-    saveSvg: async () => {
-      const { svg } = await modeler.saveSVG();
-      downloadFile(svg, "workflow.svg", "image/svg+xml;charset=utf-8");
-    },
-    saveXml: async () => {
-      const { xml } = await modeler.saveXML({ format: true });
-      downloadFile(xml, "workflow.bpmn", "application/xml;charset=utf-8");
-      status.markSaved();
-    },
+    saveSvg: diagramActions.saveSvg,
+    saveXml: diagramActions.saveXml,
     setInitialState: status.setInitialState,
     toggleLint: () => {
       linting.toggle();

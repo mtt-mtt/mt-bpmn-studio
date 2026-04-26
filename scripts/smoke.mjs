@@ -15,6 +15,7 @@ const requiredFiles = [
   "src/app/viewModes.js",
   "src/app/workbench.js",
   "src/modeler/createModeler.js",
+  "src/modeler/diagramActions.js",
   "src/modeler/features.js",
   "src/modeler/modules.js",
   "src/modeler/palette/paletteEntries.js",
