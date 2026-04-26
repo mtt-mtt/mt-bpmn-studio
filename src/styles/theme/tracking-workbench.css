@@ -319,34 +319,3 @@
 .tracking-log-message {
   font-size: 12px;
 }
-
-.tracking-canvas-host .tracking-marker-completed .djs-visual > :first-child {
-  fill: rgba(1, 126, 132, 0.10) !important;
-  stroke: var(--studio-success) !important;
-  stroke-width: 2.5px !important;
-}
-
-.tracking-canvas-host .tracking-marker-completed.djs-connection .djs-visual > path,
-.tracking-canvas-host .djs-connection.tracking-marker-completed .djs-visual > path {
-  stroke: var(--studio-success) !important;
-}
-
-.tracking-canvas-host .tracking-marker-current .djs-visual > :first-child {
-  fill: #fff !important;
-  stroke: var(--studio-primary) !important;
-  stroke-width: 3px !important;
-  filter: drop-shadow(0 0 8px rgba(113, 75, 103, 0.25));
-}
-
-.tracking-canvas-host .tracking-marker-pending .djs-visual > :first-child {
-  fill: #fff !important;
-  stroke: #6b7280 !important;
-  stroke-dasharray: 5, 4 !important;
-}
-
-.tracking-canvas-host .tracking-marker-error .djs-visual > :first-child {
-  fill: #fff9f2 !important;
-  stroke: var(--studio-warning) !important;
-  stroke-width: 3px !important;
-  filter: drop-shadow(0 0 8px rgba(217, 131, 31, 0.22));
-}
