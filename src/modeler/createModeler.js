@@ -15,8 +15,8 @@ import controlsModule from "./controls/index.js";
 import nativeCopyPasteFallbackModule from "./copy-paste/index.js";
 import customThemeRendererModule from "./custom-rendering/index.js";
 import i18nModule from "./i18n/index.js";
-import odooPropertiesModule from "./properties/index.js";
-import odooPaletteModule from "./palette/index.js";
+import studioPropertiesModule from "./properties/index.js";
+import studioPaletteModule from "./palette/index.js";
 import workflowRulesModule from "./rules/index.js";
 import simulationColorsModule from "./simulation-colors/index.js";
 
@@ -54,8 +54,8 @@ export function createModeler(container, propertiesParent) {
       i18nModule,
       customThemeRendererModule,
       workflowRulesModule,
-      odooPropertiesModule,
-      odooPaletteModule,
+      studioPropertiesModule,
+      studioPaletteModule,
       controlsModule,
     ],
   });

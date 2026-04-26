@@ -128,7 +128,7 @@ const appTemplate = `
         <div class="tracking-body">
           <div class="tracking-canvas-wrap">
             <div class="tracking-banner" data-role="tracking-banner" hidden></div>
-            <div class="tracking-canvas-host odoo-theme-canvas" data-role="tracking-canvas">
+            <div class="tracking-canvas-host studio-theme-canvas" data-role="tracking-canvas">
               <div class="canvas-legend">
                 <div class="legend-item"><span class="legend-dot is-completed"></span>已完成</div>
                 <div class="legend-item"><span class="legend-dot is-current"></span>当前节点</div>

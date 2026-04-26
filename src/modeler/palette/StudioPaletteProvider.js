@@ -137,7 +137,7 @@ function titleEntry(group, translate) {
 
   return {
     group: group.id,
-    html: `<div class="odoo-palette-title">${title}</div>`,
+    html: `<div class="studio-palette-title">${title}</div>`,
   };
 }
 
@@ -163,9 +163,9 @@ function createEntry(entry, groupId, create, elementFactory, translate) {
     group: groupId,
     title: translatedLabel,
     html: `
-      <div class="entry odoo-palette-entry" draggable="true">
-        <span class="odoo-palette-glyph ${className}"></span>
-        <span class="odoo-palette-label">${translatedLabel}</span>
+      <div class="entry studio-palette-entry" draggable="true">
+        <span class="studio-palette-glyph ${className}"></span>
+        <span class="studio-palette-label">${translatedLabel}</span>
       </div>
     `,
     action: {
@@ -175,7 +175,7 @@ function createEntry(entry, groupId, create, elementFactory, translate) {
   };
 }
 
-export default function OdooPaletteProvider(palette, create, elementFactory, translate) {
+export default function StudioPaletteProvider(palette, create, elementFactory, translate) {
   this._create = create;
   this._elementFactory = elementFactory;
   this._translate = translate;
@@ -183,14 +183,14 @@ export default function OdooPaletteProvider(palette, create, elementFactory, tra
   palette.registerProvider(PALETTE_PRIORITY, this);
 }
 
-OdooPaletteProvider.$inject = [
+StudioPaletteProvider.$inject = [
   "palette",
   "create",
   "elementFactory",
   "translate",
 ];
 
-OdooPaletteProvider.prototype.getPaletteEntries = function() {
+StudioPaletteProvider.prototype.getPaletteEntries = function() {
   const create = this._create;
   const elementFactory = this._elementFactory;
   const translate = this._translate;

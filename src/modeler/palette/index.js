@@ -1,11 +1,11 @@
 import ContextPadCleanup from "./ContextPadCleanup.js";
-import OdooPaletteProvider from "./OdooPaletteProvider.js";
+import StudioPaletteProvider from "./StudioPaletteProvider.js";
 
 export default {
   __init__: [
-    "odooPaletteProvider",
+    "studioPaletteProvider",
     "contextPadCleanup",
   ],
-  odooPaletteProvider: ["type", OdooPaletteProvider],
+  studioPaletteProvider: ["type", StudioPaletteProvider],
   contextPadCleanup: ["type", ContextPadCleanup],
 };

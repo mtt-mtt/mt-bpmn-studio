@@ -1,18 +1,18 @@
 :root {
-  --odoo-primary: #714b67;
-  --odoo-success: #017e84;
-  --odoo-danger: #e4003a;
-  --odoo-warning: #d9831f;
-  --odoo-info: #4b5563;
-  --odoo-bg: #f9f9f9;
-  --odoo-panel: #ffffff;
-  --odoo-muted-bg: #f3f4f6;
-  --odoo-border: #e5e7eb;
-  --odoo-grid: #d1d5db;
+  --studio-primary: #714b67;
+  --studio-success: #017e84;
+  --studio-danger: #e4003a;
+  --studio-warning: #d9831f;
+  --studio-info: #4b5563;
+  --studio-bg: #f9f9f9;
+  --studio-panel: #ffffff;
+  --studio-muted-bg: #f3f4f6;
+  --studio-border: #e5e7eb;
+  --studio-grid: #d1d5db;
 }
 
 body {
-  background: var(--odoo-bg);
+  background: var(--studio-bg);
 }
 
 [hidden] {
@@ -21,9 +21,9 @@ body {
 
 .tracking-card {
   padding: 0;
-  border: 1px solid var(--odoo-border);
+  border: 1px solid var(--studio-border);
   border-radius: 12px;
-  background: var(--odoo-panel);
+  background: var(--studio-panel);
   box-shadow: 0 12px 34px rgba(15, 23, 42, 0.10);
   overflow: hidden;
 }
@@ -32,7 +32,7 @@ body {
   align-items: center;
   margin: 0;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--odoo-border);
+  border-bottom: 1px solid var(--studio-border);
   background: #fff;
 }
 
@@ -54,12 +54,12 @@ body {
 
 .tracking-state-tag.is-running {
   background: rgba(113, 75, 103, 0.12);
-  color: var(--odoo-primary);
+  color: var(--studio-primary);
 }
 
 .tracking-state-tag.is-exception {
   background: #fff9f2;
-  color: var(--odoo-warning);
+  color: var(--studio-warning);
 }
 
 .tracking-body {
@@ -73,7 +73,7 @@ body {
 .tracking-canvas-wrap {
   min-height: 0;
   padding: 20px;
-  background: var(--odoo-muted-bg);
+  background: var(--studio-muted-bg);
   overflow: hidden;
 }
 
@@ -81,7 +81,7 @@ body {
   margin-bottom: 16px;
   padding: 12px 16px;
   border: 0;
-  border-left: 4px solid var(--odoo-warning);
+  border-left: 4px solid var(--studio-warning);
   border-radius: 6px;
   background: #fff9f2;
   color: #92400e;
@@ -92,10 +92,10 @@ body {
   position: relative;
   flex: 1 1 auto;
   min-height: 0;
-  border: 1px solid var(--odoo-border);
+  border: 1px solid var(--studio-border);
   border-radius: 8px;
   background:
-    radial-gradient(var(--odoo-grid) 1px, transparent 1px),
+    radial-gradient(var(--studio-grid) 1px, transparent 1px),
     #fafafa;
   background-size: 20px 20px, auto;
   box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
@@ -103,7 +103,7 @@ body {
 
 .tracking-canvas-host .djs-container {
   background:
-    radial-gradient(var(--odoo-grid) 1px, transparent 1px),
+    radial-gradient(var(--studio-grid) 1px, transparent 1px),
     #fafafa !important;
   background-size: 20px 20px, auto !important;
 }
@@ -117,10 +117,10 @@ body {
   gap: 12px;
   align-items: center;
   padding: 8px 12px;
-  border: 1px solid var(--odoo-border);
+  border: 1px solid var(--studio-border);
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.92);
-  color: var(--odoo-info);
+  color: var(--studio-info);
   font-size: 11px;
   box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05);
   pointer-events: none;
@@ -140,11 +140,11 @@ body {
 }
 
 .legend-dot.is-completed {
-  background: var(--odoo-success);
+  background: var(--studio-success);
 }
 
 .legend-dot.is-current {
-  background: var(--odoo-primary);
+  background: var(--studio-primary);
 }
 
 .legend-dot.is-pending {
@@ -153,7 +153,7 @@ body {
 }
 
 .legend-dot.is-error {
-  background: var(--odoo-warning);
+  background: var(--studio-warning);
 }
 
 .canvas-toolbar {
@@ -162,7 +162,7 @@ body {
   top: 12px;
   right: 12px;
   display: flex;
-  border: 1px solid var(--odoo-border);
+  border: 1px solid var(--studio-border);
   border-radius: 6px;
   background: #fff;
   box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05);
@@ -187,20 +187,20 @@ body {
 
 .canvas-toolbar .icon-btn:hover {
   background: #f3f4f6;
-  color: var(--odoo-primary);
+  color: var(--studio-primary);
 }
 
 .tracking-timeline {
   min-height: 0;
   border: 0;
-  border-left: 1px solid var(--odoo-border);
+  border-left: 1px solid var(--studio-border);
   border-radius: 0;
   background: #fff;
 }
 
 .tracking-timeline-header {
   padding: 16px 20px;
-  border-bottom: 1px solid var(--odoo-border);
+  border-bottom: 1px solid var(--studio-border);
 }
 
 .tracking-timeline-header h4 {
@@ -217,7 +217,7 @@ body {
 .tracking-detail-card {
   flex: 0 0 auto;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--odoo-border);
+  border-bottom: 1px solid var(--studio-border);
   background: #fff;
 }
 
@@ -227,7 +227,7 @@ body {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
   padding: 10px 12px;
-  border-bottom: 1px solid var(--odoo-border);
+  border-bottom: 1px solid var(--studio-border);
   background: #fafafa;
 }
 
@@ -243,15 +243,15 @@ body {
 }
 
 .tracking-side-tabs button.is-active {
-  border-color: var(--odoo-border);
+  border-color: var(--studio-border);
   background: #fff;
-  color: var(--odoo-primary);
+  color: var(--studio-primary);
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 
 .tracking-node-empty {
   padding: 18px;
-  border: 1px dashed var(--odoo-border);
+  border: 1px dashed var(--studio-border);
   border-radius: 8px;
   background: #fafafa;
 }
@@ -290,7 +290,7 @@ body {
   bottom: 20px;
   left: 23px;
   width: 2px;
-  background: var(--odoo-border);
+  background: var(--studio-border);
 }
 
 .tracking-log-dot {
@@ -306,24 +306,24 @@ body {
 }
 
 .tracking-log-dot[data-type="action"] {
-  background: var(--odoo-primary);
+  background: var(--studio-primary);
 }
 
 .tracking-log-dot[data-type="passed"] {
-  background: var(--odoo-success);
+  background: var(--studio-success);
 }
 
 .tracking-log-dot[data-type="exception"] {
-  background: var(--odoo-warning);
+  background: var(--studio-warning);
 }
 
 .tracking-log-dot[data-type="returned"] {
-  background: var(--odoo-danger);
+  background: var(--studio-danger);
 }
 
 .tracking-log-card {
   padding: 10px;
-  border: 1px solid var(--odoo-border);
+  border: 1px solid var(--studio-border);
   border-radius: 6px;
   background: #fff;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
@@ -343,18 +343,18 @@ body {
 
 .tracking-canvas-host .tracking-marker-completed .djs-visual > :first-child {
   fill: rgba(1, 126, 132, 0.10) !important;
-  stroke: var(--odoo-success) !important;
+  stroke: var(--studio-success) !important;
   stroke-width: 2.5px !important;
 }
 
 .tracking-canvas-host .tracking-marker-completed.djs-connection .djs-visual > path,
 .tracking-canvas-host .djs-connection.tracking-marker-completed .djs-visual > path {
-  stroke: var(--odoo-success) !important;
+  stroke: var(--studio-success) !important;
 }
 
 .tracking-canvas-host .tracking-marker-current .djs-visual > :first-child {
   fill: #fff !important;
-  stroke: var(--odoo-primary) !important;
+  stroke: var(--studio-primary) !important;
   stroke-width: 3px !important;
   filter: drop-shadow(0 0 8px rgba(113, 75, 103, 0.25));
 }
@@ -367,7 +367,7 @@ body {
 
 .tracking-canvas-host .tracking-marker-error .djs-visual > :first-child {
   fill: #fff9f2 !important;
-  stroke: var(--odoo-warning) !important;
+  stroke: var(--studio-warning) !important;
   stroke-width: 3px !important;
   filter: drop-shadow(0 0 8px rgba(217, 131, 31, 0.22));
 }
@@ -429,7 +429,7 @@ body {
   margin-bottom: 0 !important;
 }
 
-.canvas-card .canvas-host .odoo-palette-title {
+.canvas-card .canvas-host .studio-palette-title {
   grid-column: 1 / -1 !important;
   padding: 0 !important;
   margin: 0 0 6px !important;
@@ -440,7 +440,7 @@ body {
   line-height: 1.3 !important;
 }
 
-.canvas-card .canvas-host .djs-palette .entry.odoo-palette-entry {
+.canvas-card .canvas-host .djs-palette .entry.studio-palette-entry {
   display: flex !important;
   width: auto !important;
   height: 62px !important;
@@ -461,11 +461,11 @@ body {
   user-select: none !important;
 }
 
-.canvas-card .canvas-host .djs-palette .entry.odoo-palette-entry::before {
+.canvas-card .canvas-host .djs-palette .entry.studio-palette-entry::before {
   display: none !important;
 }
 
-.canvas-card .canvas-host .djs-palette .entry.odoo-palette-entry:hover {
+.canvas-card .canvas-host .djs-palette .entry.studio-palette-entry:hover {
   border-color: #d1d5db !important;
   background: #fff !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
@@ -473,14 +473,14 @@ body {
   transform: translateY(-1px) !important;
 }
 
-.canvas-card .canvas-host .djs-palette .entry.odoo-palette-entry:active {
+.canvas-card .canvas-host .djs-palette .entry.studio-palette-entry:active {
   border-color: #714b67 !important;
   background: rgba(113, 75, 103, 0.08) !important;
   cursor: grabbing !important;
   transform: translateY(0) !important;
 }
 
-.canvas-card .canvas-host .odoo-palette-glyph {
+.canvas-card .canvas-host .studio-palette-glyph {
   display: inline-flex !important;
   width: 24px !important;
   height: 24px !important;
@@ -491,12 +491,12 @@ body {
   line-height: 1 !important;
 }
 
-.canvas-card .canvas-host .odoo-palette-glyph::before {
+.canvas-card .canvas-host .studio-palette-glyph::before {
   margin: 0 !important;
   font-size: 24px !important;
 }
 
-.canvas-card .canvas-host .odoo-palette-label {
+.canvas-card .canvas-host .studio-palette-label {
   width: 100% !important;
   max-width: none !important;
   overflow: visible !important;
@@ -511,7 +511,7 @@ body {
   white-space: normal !important;
 }
 
-.canvas-card .canvas-host .djs-palette .entry.odoo-palette-entry:hover .odoo-palette-label {
+.canvas-card .canvas-host .djs-palette .entry.studio-palette-entry:hover .studio-palette-label {
   color: #714b67 !important;
 }
 
@@ -701,7 +701,7 @@ body {
   margin-bottom: 0;
 }
 
-.djs-palette .entry.odoo-palette-entry {
+.djs-palette .entry.studio-palette-entry {
   position: relative;
   display: inline-flex !important;
   width: 40px !important;
@@ -721,11 +721,11 @@ body {
   line-height: 1 !important;
 }
 
-.djs-palette .entry.odoo-palette-entry::before {
+.djs-palette .entry.studio-palette-entry::before {
   display: none !important;
 }
 
-.odoo-palette-glyph {
+.studio-palette-glyph {
   display: inline-flex;
   width: 22px;
   height: 22px;
@@ -735,11 +735,11 @@ body {
   line-height: 1;
 }
 
-.odoo-palette-glyph::before {
+.studio-palette-glyph::before {
   margin: 0 !important;
 }
 
-.odoo-palette-label {
+.studio-palette-label {
   width: 100%;
   max-width: none;
   overflow: visible;
@@ -754,7 +754,7 @@ body {
   white-space: normal;
 }
 
-.odoo-palette-title {
+.studio-palette-title {
   grid-column: 1 / -1;
   padding: 4px 2px 2px !important;
   color: #6b7280;
@@ -763,16 +763,16 @@ body {
   letter-spacing: 0;
 }
 
-.djs-palette .entry.odoo-palette-entry:hover,
-.djs-palette .entry.odoo-palette-entry.highlighted {
+.djs-palette .entry.studio-palette-entry:hover,
+.djs-palette .entry.studio-palette-entry.highlighted {
   border-color: rgba(113, 75, 103, 0.35) !important;
   background: #f9fafb !important;
-  color: var(--odoo-primary) !important;
+  color: var(--studio-primary) !important;
 }
 
-.djs-palette .entry.odoo-palette-entry:hover .odoo-palette-label,
-.djs-palette .entry.odoo-palette-entry.highlighted .odoo-palette-label {
-  color: var(--odoo-primary);
+.djs-palette .entry.studio-palette-entry:hover .studio-palette-label,
+.djs-palette .entry.studio-palette-entry.highlighted .studio-palette-label {
+  color: var(--studio-primary);
 }
 
 .djs-palette .djs-palette-toggle,
@@ -781,19 +781,19 @@ body {
 }
 
 .tracking-node-pop {
-  border: 1px solid var(--odoo-border);
-  border-left: 4px solid var(--odoo-warning);
+  border: 1px solid var(--studio-border);
+  border-left: 4px solid var(--studio-warning);
   border-radius: 8px;
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
 }
 
 .tracking-node-pop-arrow {
-  border-right: 1px solid var(--odoo-border);
-  border-bottom: 1px solid var(--odoo-border);
+  border-right: 1px solid var(--studio-border);
+  border-bottom: 1px solid var(--studio-border);
 }
 
 .canvas-card {
-  border: 1px solid var(--odoo-border);
+  border: 1px solid var(--studio-border);
   border-radius: 8px;
   background: #fff;
   box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
@@ -801,20 +801,20 @@ body {
 
 .canvas-card .canvas-host {
   background:
-    radial-gradient(var(--odoo-grid) 1px, transparent 1px),
+    radial-gradient(var(--studio-grid) 1px, transparent 1px),
     #fafafa;
   background-size: 20px 20px, auto;
 }
 
 .canvas-card .canvas-host .djs-container {
   background:
-    radial-gradient(var(--odoo-grid) 1px, transparent 1px),
+    radial-gradient(var(--studio-grid) 1px, transparent 1px),
     #fafafa !important;
   background-size: 20px 20px, auto !important;
 }
 
 .properties-host {
-  border: 1px solid var(--odoo-border);
+  border: 1px solid var(--studio-border);
   border-radius: 8px;
   background: #fff;
 }
@@ -826,7 +826,7 @@ body {
   right: 12px;
   display: flex;
   overflow: hidden;
-  border: 1px solid var(--odoo-border);
+  border: 1px solid var(--studio-border);
   border-radius: 6px;
   background: #fff;
   box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05);
@@ -855,7 +855,7 @@ body {
 .experiment-canvas-controls button:hover,
 .experiment-canvas-controls button:focus-visible {
   background: #f3f4f6;
-  color: var(--odoo-primary);
+  color: var(--studio-primary);
   outline: none;
 }
 
@@ -863,7 +863,7 @@ body {
   top: 12px;
   left: 12px;
   overflow: hidden;
-  border: 1px solid var(--odoo-border);
+  border: 1px solid var(--studio-border);
   border-radius: 6px;
   background: #fff;
   box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05);
@@ -886,7 +886,7 @@ body {
 .djs-palette .entry:hover,
 .djs-palette .entry.highlighted {
   background: #f3f4f6;
-  color: var(--odoo-primary);
+  color: var(--studio-primary);
 }
 
 .djs-palette .entry.bpmn-icon-start-event-none::before,
@@ -910,38 +910,38 @@ body {
 
 .djs-palette .entry.bpmn-icon-start-event-none::before {
   content: "始";
-  border: 1px solid var(--odoo-success);
+  border: 1px solid var(--studio-success);
   background: rgba(1, 126, 132, 0.10);
-  color: var(--odoo-success);
+  color: var(--studio-success);
 }
 
 .djs-palette .entry.bpmn-icon-task::before,
 .djs-palette .entry.bpmn-icon-user-task::before {
   content: "审";
-  border: 1px solid var(--odoo-primary);
+  border: 1px solid var(--studio-primary);
   background: #fff;
-  color: var(--odoo-primary);
+  color: var(--studio-primary);
 }
 
 .djs-palette .entry.bpmn-icon-service-task::before {
   content: "系";
-  border: 1px dashed var(--odoo-grid);
+  border: 1px dashed var(--studio-grid);
   background: #fff;
-  color: var(--odoo-info);
+  color: var(--studio-info);
 }
 
 .djs-palette .entry.bpmn-icon-end-event-none::before {
   content: "终";
-  border: 1px dashed var(--odoo-grid);
+  border: 1px dashed var(--studio-grid);
   background: #fff;
-  color: var(--odoo-info);
+  color: var(--studio-info);
 }
 
 .djs-palette .entry.bpmn-icon-gateway-none::before {
   content: "判";
-  border: 1px solid var(--odoo-warning);
+  border: 1px solid var(--studio-warning);
   background: #fff9f2;
-  color: var(--odoo-warning);
+  color: var(--studio-warning);
 }
 
 .djs-palette {
@@ -962,7 +962,7 @@ body {
   margin-bottom: 0;
 }
 
-.odoo-palette-title {
+.studio-palette-title {
   padding: 6px 2px 2px;
   color: #6b7280;
   font-size: 11px;
@@ -970,7 +970,7 @@ body {
   letter-spacing: 0;
 }
 
-.djs-palette .entry.odoo-palette-entry {
+.djs-palette .entry.studio-palette-entry {
   display: grid;
   width: auto;
   height: 38px;
@@ -986,11 +986,11 @@ body {
   line-height: 1;
 }
 
-.djs-palette .entry.odoo-palette-entry::before {
+.djs-palette .entry.studio-palette-entry::before {
   display: none;
 }
 
-.odoo-palette-icon {
+.studio-palette-icon {
   display: inline-flex;
   width: 26px;
   height: 22px;
@@ -1001,7 +1001,7 @@ body {
   font-weight: 800;
 }
 
-.odoo-palette-label {
+.studio-palette-label {
   overflow: visible;
   overflow-wrap: anywhere;
   font-size: 12px;
@@ -1010,35 +1010,35 @@ body {
   white-space: normal;
 }
 
-.odoo-palette-entry.is-success .odoo-palette-icon {
-  border: 1px solid var(--odoo-success);
+.studio-palette-entry.is-success .studio-palette-icon {
+  border: 1px solid var(--studio-success);
   background: rgba(1, 126, 132, 0.10);
-  color: var(--odoo-success);
+  color: var(--studio-success);
 }
 
-.odoo-palette-entry.is-primary .odoo-palette-icon {
-  border: 1px solid var(--odoo-primary);
+.studio-palette-entry.is-primary .studio-palette-icon {
+  border: 1px solid var(--studio-primary);
   background: #fff7fb;
-  color: var(--odoo-primary);
+  color: var(--studio-primary);
 }
 
-.odoo-palette-entry.is-muted .odoo-palette-icon {
-  border: 1px dashed var(--odoo-grid);
+.studio-palette-entry.is-muted .studio-palette-icon {
+  border: 1px dashed var(--studio-grid);
   background: #fff;
-  color: var(--odoo-info);
+  color: var(--studio-info);
 }
 
-.odoo-palette-entry.is-warning .odoo-palette-icon {
-  border: 1px solid var(--odoo-warning);
+.studio-palette-entry.is-warning .studio-palette-icon {
+  border: 1px solid var(--studio-warning);
   background: #fff9f2;
-  color: var(--odoo-warning);
+  color: var(--studio-warning);
 }
 
-.djs-palette .entry.odoo-palette-entry:hover,
-.djs-palette .entry.odoo-palette-entry.highlighted {
+.djs-palette .entry.studio-palette-entry:hover,
+.djs-palette .entry.studio-palette-entry.highlighted {
   border-color: rgba(113, 75, 103, 0.35);
   background: #f9fafb;
-  color: var(--odoo-primary);
+  color: var(--studio-primary);
 }
 
 .djs-palette .djs-palette-toggle {
@@ -1053,12 +1053,12 @@ body {
 }
 
 .experiment-canvas-controls button.is-tool {
-  color: var(--odoo-primary);
+  color: var(--studio-primary);
 }
 
 .djs-context-pad {
   overflow: hidden;
-  border: 1px solid var(--odoo-border);
+  border: 1px solid var(--studio-border);
   border-radius: 6px;
   background: #fff;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
@@ -1075,7 +1075,7 @@ body {
 
 .djs-context-pad .entry:hover {
   background: #f3f4f6;
-  color: var(--odoo-primary);
+  color: var(--studio-primary);
 }
 
 .djs-label text,
@@ -1092,18 +1092,18 @@ body {
 
 .tracking-canvas-host .tracking-marker-completed .djs-visual > :first-child {
   fill: rgba(1, 126, 132, 0.10) !important;
-  stroke: var(--odoo-success) !important;
+  stroke: var(--studio-success) !important;
   stroke-width: 2.5px !important;
 }
 
 .tracking-canvas-host .tracking-marker-completed.djs-connection .djs-visual > path,
 .tracking-canvas-host .djs-connection.tracking-marker-completed .djs-visual > path {
-  stroke: var(--odoo-success) !important;
+  stroke: var(--studio-success) !important;
 }
 
 .tracking-canvas-host .tracking-marker-current .djs-visual > :first-child {
   fill: #fff !important;
-  stroke: var(--odoo-primary) !important;
+  stroke: var(--studio-primary) !important;
   stroke-width: 3px !important;
   filter: drop-shadow(0 0 8px rgba(113, 75, 103, 0.25));
 }
@@ -1116,7 +1116,7 @@ body {
 
 .tracking-canvas-host .tracking-marker-error .djs-visual > :first-child {
   fill: #fff9f2 !important;
-  stroke: var(--odoo-warning) !important;
+  stroke: var(--studio-warning) !important;
   stroke-width: 3px !important;
   filter: drop-shadow(0 0 8px rgba(217, 131, 31, 0.22));
 }
@@ -1189,7 +1189,7 @@ body,
   width: auto;
   padding: 0;
   border: 0;
-  border-left: 3px solid var(--odoo-primary);
+  border-left: 3px solid var(--studio-primary);
   border-radius: 0;
   background: transparent;
   box-shadow: none;

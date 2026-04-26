@@ -67,34 +67,34 @@ function textareaEntry(element, modeling, debounce, config) {
 function buildEntries(element, modeling, debounce) {
   const entries = [
     textEntry(element, modeling, debounce, {
-      id: "odoo-approval-role",
-      label: "审批角色",
-      attr: "data-odoo-approval-role",
+      id: "studio-processing-role",
+      label: "处理角色",
+      attr: "data-studio-processing-role",
     }),
     textEntry(element, modeling, debounce, {
-      id: "odoo-assignee-domain",
-      label: "审批人 Domain",
-      attr: "data-odoo-assignee-domain",
+      id: "studio-assignee-expression",
+      label: "处理人表达式",
+      attr: "data-studio-assignee-expression",
     }),
     textareaEntry(element, modeling, debounce, {
-      id: "odoo-condition",
+      id: "studio-condition",
       label: "流转条件",
-      attr: "data-odoo-condition",
+      attr: "data-studio-condition",
     }),
   ];
 
   if (is(element, "bpmn:StartEvent")) {
     entries.push(textEntry(element, modeling, debounce, {
-      id: "odoo-trigger-button",
+      id: "studio-trigger-action",
       label: "触发按钮",
-      attr: "data-odoo-trigger-button",
+      attr: "data-studio-trigger-action",
     }));
   }
 
   return entries;
 }
 
-export default function OdooPropertiesProvider(propertiesPanel, translate, modeling, debounceInput) {
+export default function StudioPropertiesProvider(propertiesPanel, translate, modeling, debounceInput) {
   this.getGroups = function(element) {
     return function(groups) {
       if (!is(element, "bpmn:FlowNode")) {
@@ -102,8 +102,8 @@ export default function OdooPropertiesProvider(propertiesPanel, translate, model
       }
 
       groups.push({
-        id: "odoo-workflow",
-        label: translate("Odoo 工作流"),
+        id: "studio-workflow",
+        label: translate("流程扩展"),
         entries: buildEntries(element, modeling, debounceInput),
       });
 
@@ -114,7 +114,7 @@ export default function OdooPropertiesProvider(propertiesPanel, translate, model
   propertiesPanel.registerProvider(500, this);
 }
 
-OdooPropertiesProvider.$inject = [
+StudioPropertiesProvider.$inject = [
   "propertiesPanel",
   "translate",
   "modeling",

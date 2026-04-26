@@ -1,6 +1,6 @@
-import OdooPropertiesProvider from "./OdooPropertiesProvider.js";
+import StudioPropertiesProvider from "./StudioPropertiesProvider.js";
 
 export default {
-  __init__: ["odooPropertiesProvider"],
-  odooPropertiesProvider: ["type", OdooPropertiesProvider],
+  __init__: ["studioPropertiesProvider"],
+  studioPropertiesProvider: ["type", StudioPropertiesProvider],
 };
