@@ -11,6 +11,7 @@ const COLORS = {
   primary: "#714b67",
   success: "#017e84",
   warning: "#d9831f",
+  connection: "#111827",
   muted: "#cbd5e1",
 };
 
@@ -123,7 +124,7 @@ CustomThemeRenderer.prototype.drawConnection = function(parentGfx, connection) {
   }
 
   return this.bpmnRenderer.drawConnection(parentGfx, connection, {
-    stroke: COLORS.muted,
+    stroke: COLORS.connection,
     "stroke-width": 2,
   });
 };
