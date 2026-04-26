@@ -19,48 +19,61 @@ import studioPropertiesModule from "./properties/index.js";
 import workflowRulesModule from "./rules/index.js";
 import simulationColorsModule from "./simulation-colors/index.js";
 
-function when(enabled, modules) {
-  return enabled ? modules : [];
+function moduleEntry(feature, modules) {
+  return {
+    feature,
+    modules,
+  };
 }
 
-const canvasSupportModules = [
-  ...when(modelerFeatures.minimap, [minimapModule]),
-  ...when(modelerFeatures.grid, [gridModule]),
+export const modelerModuleGroups = [
+  {
+    id: "canvas-support",
+    entries: [
+      moduleEntry("minimap", [minimapModule]),
+      moduleEntry("grid", [gridModule]),
+    ],
+  },
+  {
+    id: "productivity-plugins",
+    entries: [
+      moduleEntry("nativeCopyPaste", [
+        nativeCopyPasteModule,
+        nativeCopyPasteFallbackModule,
+      ]),
+      moduleEntry("colorPicker", [colorPickerModule]),
+      moduleEntry("lint", [lintModule]),
+      moduleEntry("simulation", [
+        tokenSimulationModule,
+        simulationSupportModule,
+        simulationColorsModule,
+      ]),
+    ],
+  },
+  {
+    id: "properties-panel",
+    entries: [
+      moduleEntry("propertiesPanel", [
+        BpmnPropertiesPanelModule,
+        BpmnPropertiesProviderModule,
+      ]),
+      moduleEntry("studioProperties", [studioPropertiesModule]),
+    ],
+  },
+  {
+    id: "studio-extensions",
+    entries: [
+      moduleEntry("i18n", [i18nModule]),
+      moduleEntry("customRendering", [customThemeRendererModule]),
+      moduleEntry("workflowRules", [workflowRulesModule]),
+      moduleEntry("studioPalette", [studioPaletteModule]),
+      moduleEntry("canvasControls", [controlsModule]),
+    ],
+  },
 ];
 
-const productivityModules = [
-  ...when(modelerFeatures.nativeCopyPaste, [
-    nativeCopyPasteModule,
-    nativeCopyPasteFallbackModule,
-  ]),
-  ...when(modelerFeatures.colorPicker, [colorPickerModule]),
-  ...when(modelerFeatures.lint, [lintModule]),
-  ...when(modelerFeatures.simulation, [
-    tokenSimulationModule,
-    simulationSupportModule,
-    simulationColorsModule,
-  ]),
-];
-
-const propertiesPanelModules = [
-  ...when(modelerFeatures.propertiesPanel, [
-    BpmnPropertiesPanelModule,
-    BpmnPropertiesProviderModule,
-  ]),
-  ...when(modelerFeatures.studioProperties, [studioPropertiesModule]),
-];
-
-const studioExtensionModules = [
-  ...when(modelerFeatures.i18n, [i18nModule]),
-  ...when(modelerFeatures.customRendering, [customThemeRendererModule]),
-  ...when(modelerFeatures.workflowRules, [workflowRulesModule]),
-  ...when(modelerFeatures.studioPalette, [studioPaletteModule]),
-  ...when(modelerFeatures.canvasControls, [controlsModule]),
-];
-
-export const modelerModules = [
-  ...canvasSupportModules,
-  ...productivityModules,
-  ...propertiesPanelModules,
-  ...studioExtensionModules,
-];
+export const modelerModules = modelerModuleGroups.flatMap((group) =>
+  group.entries.flatMap((entry) =>
+    modelerFeatures[entry.feature] ? entry.modules : [],
+  ),
+);
