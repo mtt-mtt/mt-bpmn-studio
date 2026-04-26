@@ -2,6 +2,7 @@ import { createModelerController } from "../modeler/controller.js";
 import { createModeler } from "../modeler/createModeler.js";
 import { createTrackingController } from "../tracking/controller.js";
 import { createViewer } from "../viewer/createViewer.js";
+import { getDomRefs } from "./domRefs.js";
 import { appTemplate } from "./template.js";
 import { createToolbarController } from "./toolbarController.js";
 import { createViewController } from "./viewController.js";
@@ -9,40 +10,29 @@ import { createViewController } from "./viewController.js";
 export async function bootstrapApp(root) {
   root.innerHTML = appTemplate;
 
-  const canvas = root.querySelector('[data-role="canvas"]');
-  const propertiesPanel = root.querySelector('[data-role="properties-panel"]');
-  const trackingCanvas = root.querySelector('[data-role="tracking-canvas"]');
-  const engineStatus = root.querySelector('[data-role="engine-status"]');
-  const diagramStatus = root.querySelector('[data-role="diagram-status"]');
-  const dirtyStatus = root.querySelector('[data-role="dirty-status"]');
-  const lintStatus = root.querySelector('[data-role="lint-status"]');
-  const simulationStatus = root.querySelector('[data-role="simulation-status"]');
-  const viewStatus = root.querySelector('[data-role="view-status"]');
-  const fileInput = root.querySelector('[data-role="file-input"]');
-  const modelerPanel = root.querySelector('[data-panel="modeler"]');
-  const trackingPanel = root.querySelector('[data-panel="tracking"]');
+  const refs = getDomRefs(root);
 
-  const modeler = createModeler(canvas, propertiesPanel);
-  const viewer = createViewer(trackingCanvas);
+  const modeler = createModeler(refs.canvas, refs.propertiesPanel);
+  const viewer = createViewer(refs.trackingCanvas);
   const modelerController = createModelerController({
     modeler,
-    fileInput,
-    diagramStatus,
-    dirtyStatus,
-    lintStatus,
-    simulationStatus,
+    fileInput: refs.fileInput,
+    diagramStatus: refs.diagramStatus,
+    dirtyStatus: refs.dirtyStatus,
+    lintStatus: refs.lintStatus,
+    simulationStatus: refs.simulationStatus,
   });
   const trackingController = createTrackingController({
     root,
     viewer,
-    trackingCanvas,
-    trackingPanel,
+    trackingCanvas: refs.trackingCanvas,
+    trackingPanel: refs.trackingPanel,
   });
   const viewController = createViewController({
     root,
-    modelerPanel,
-    trackingPanel,
-    viewStatus,
+    modelerPanel: refs.modelerPanel,
+    trackingPanel: refs.trackingPanel,
+    viewStatus: refs.viewStatus,
     trackingController,
   });
   const toolbarController = createToolbarController({
@@ -52,7 +42,7 @@ export async function bootstrapApp(root) {
     viewController,
   });
 
-  engineStatus.textContent = "已就绪";
+  refs.engineStatus.textContent = "已就绪";
 
   await modelerController.loadDefaultDiagram();
   await trackingController.loadScenario("running");
