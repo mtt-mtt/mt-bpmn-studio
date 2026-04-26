@@ -18,9 +18,12 @@ import studioPropertiesModule from "./properties/index.js";
 import workflowRulesModule from "./rules/index.js";
 import simulationColorsModule from "./simulation-colors/index.js";
 
-export const modelerModules = [
+const canvasSupportModules = [
   minimapModule,
   gridModule,
+];
+
+const productivityModules = [
   nativeCopyPasteModule,
   nativeCopyPasteFallbackModule,
   colorPickerModule,
@@ -28,12 +31,25 @@ export const modelerModules = [
   tokenSimulationModule,
   simulationSupportModule,
   simulationColorsModule,
+];
+
+const propertiesPanelModules = [
   BpmnPropertiesPanelModule,
   BpmnPropertiesProviderModule,
+  studioPropertiesModule,
+];
+
+const studioExtensionModules = [
   i18nModule,
   customThemeRendererModule,
   workflowRulesModule,
-  studioPropertiesModule,
   studioPaletteModule,
   controlsModule,
+];
+
+export const modelerModules = [
+  ...canvasSupportModules,
+  ...productivityModules,
+  ...propertiesPanelModules,
+  ...studioExtensionModules,
 ];
