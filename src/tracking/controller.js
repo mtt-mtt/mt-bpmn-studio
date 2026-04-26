@@ -1,3 +1,4 @@
+import { disposeAll, listen, onEmitter } from "../app/lifecycle.js";
 import { trackingScenarios } from "./mockData.js";
 import { getTrackingDomRefs } from "./domRefs.js";
 import { applyTrackingMarkers } from "./markers.js";
@@ -109,32 +110,39 @@ export function createTrackingController({ root, viewer, trackingCanvas, trackin
   };
 
   const bindEvents = () => {
-    viewerEventBus.on("element.click", ({ element }) => {
+    const disposers = [];
+
+    const handleElementClick = ({ element }) => {
       if (!isSelectableElement(element)) {
         return;
       }
 
       setActiveNode(element.id);
-    });
+    };
 
-    viewerEventBus.on("canvas.click", () => {
+    const handleCanvasClick = () => {
       setActiveNode("");
-    });
+    };
+
+    disposers.push(
+      onEmitter(viewerEventBus, "element.click", handleElementClick),
+      onEmitter(viewerEventBus, "canvas.click", handleCanvasClick),
+    );
 
     refs.scenarioButtons.forEach((button) => {
-      button.addEventListener("click", async () => {
+      disposers.push(listen(button, "click", async () => {
         await loadScenario(button.dataset.scenario);
-      });
+      }));
     });
 
     refs.tabs.forEach((button) => {
-      button.addEventListener("click", () => {
+      disposers.push(listen(button, "click", () => {
         setTab(button.dataset.trackingTab);
-      });
+      }));
     });
 
     refs.tools.forEach((button) => {
-      button.addEventListener("click", async () => {
+      disposers.push(listen(button, "click", async () => {
         const tool = button.dataset.trackingTool;
 
         if (tool === "fit") {
@@ -154,8 +162,10 @@ export function createTrackingController({ root, viewer, trackingCanvas, trackin
         if (tool === "zoom-out") {
           viewerCanvas.zoom(Math.max(currentZoom - 0.15, 0.25));
         }
-      });
+      }));
     });
+
+    return () => disposeAll(disposers);
   };
 
   return {

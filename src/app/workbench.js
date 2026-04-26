@@ -4,6 +4,7 @@ import { createTrackingController } from "../tracking/controller.js";
 import { createViewer } from "../viewer/createViewer.js";
 import { createToolbarController } from "./toolbarController.js";
 import { createViewController } from "./viewController.js";
+import { disposeAll } from "./lifecycle.js";
 
 export function createWorkbench({ root, refs }) {
   const modeler = createModeler(refs.canvas, refs.propertiesPanel);
@@ -35,19 +36,35 @@ export function createWorkbench({ root, refs }) {
     trackingController,
     viewController,
   });
+  let isStarted = false;
+  let eventDisposers = [];
 
   return {
     async start() {
+      if (isStarted) {
+        return;
+      }
+
       refs.engineStatus.textContent = "已就绪";
 
       await modelerController.loadDefaultDiagram();
       await trackingController.loadScenario("running");
       modelerController.setInitialState();
       viewController.setView("modeler");
-      modelerController.bindEvents();
-      trackingController.bindEvents();
-      viewController.bindEvents();
-      toolbarController.bindEvents();
+      eventDisposers = [
+        modelerController.bindEvents(),
+        trackingController.bindEvents(),
+        viewController.bindEvents(),
+        toolbarController.bindEvents(),
+      ];
+      isStarted = true;
+    },
+    destroy() {
+      disposeAll(eventDisposers);
+      eventDisposers = [];
+      modeler.destroy();
+      viewer.destroy();
+      isStarted = false;
     },
   };
 }

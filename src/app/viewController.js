@@ -1,3 +1,5 @@
+import { disposeAll, listen } from "./lifecycle.js";
+
 export function createViewController({
   root,
   modelerPanel,
@@ -29,11 +31,15 @@ export function createViewController({
 
   return {
     bindEvents: () => {
+      const disposers = [];
+
       root.querySelectorAll("[data-view]").forEach((button) => {
-        button.addEventListener("click", () => {
+        disposers.push(listen(button, "click", () => {
           setView(button.dataset.view);
-        });
+        }));
       });
+
+      return () => disposeAll(disposers);
     },
     isTrackingActive: () => !trackingPanel.hidden,
     setView,

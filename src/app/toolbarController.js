@@ -1,3 +1,5 @@
+import { disposeAll, listen } from "./lifecycle.js";
+
 export function createToolbarController({
   root,
   modelerController,
@@ -5,7 +7,8 @@ export function createToolbarController({
   viewController,
 }) {
   const bindAction = (action, handler) => {
-    root.querySelector(`[data-action="${action}"]`)?.addEventListener("click", handler);
+    const target = root.querySelector(`[data-action="${action}"]`);
+    return target ? listen(target, "click", handler) : null;
   };
 
   const fitActiveCanvas = () => {
@@ -22,39 +25,43 @@ export function createToolbarController({
 
   return {
     bindEvents: () => {
-      bindAction("new", async () => {
+      const disposers = [];
+
+      disposers.push(bindAction("new", async () => {
         await modelerController.loadDefaultDiagram();
-      });
+      }));
 
-      bindAction("open", () => {
+      disposers.push(bindAction("open", () => {
         modelerController.openFilePicker();
-      });
+      }));
 
-      bindAction("fit", fitActiveCanvas);
+      disposers.push(bindAction("fit", fitActiveCanvas));
 
-      bindAction("toggle-lint", () => {
+      disposers.push(bindAction("toggle-lint", () => {
         modelerController.toggleLint();
-      });
+      }));
 
-      bindAction("toggle-simulation", () => {
+      disposers.push(bindAction("toggle-simulation", () => {
         modelerController.toggleSimulation();
-      });
+      }));
 
-      bindAction("undo", () => {
+      disposers.push(bindAction("undo", () => {
         modelerController.undo();
-      });
+      }));
 
-      bindAction("redo", () => {
+      disposers.push(bindAction("redo", () => {
         modelerController.redo();
-      });
+      }));
 
-      bindAction("save-xml", async () => {
+      disposers.push(bindAction("save-xml", async () => {
         await modelerController.saveXml();
-      });
+      }));
 
-      bindAction("save-svg", async () => {
+      disposers.push(bindAction("save-svg", async () => {
         await modelerController.saveSvg();
-      });
+      }));
+
+      return () => disposeAll(disposers);
     },
   };
 }

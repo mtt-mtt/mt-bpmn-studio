@@ -1,4 +1,5 @@
 import { downloadFile } from "../app/downloadFile.js";
+import { disposeAll, listen, onEmitter } from "../app/lifecycle.js";
 import { createDefaultDiagram } from "./defaultDiagram.js";
 
 export function createModelerController({
@@ -38,15 +39,17 @@ export function createModelerController({
   };
 
   const bindEvents = () => {
-    modeler.on("commandStack.changed", () => {
+    const disposers = [];
+
+    const handleCommandStackChanged = () => {
       setDirtyState(true);
-    });
+    };
 
-    eventBus.on("tokenSimulation.toggleMode", (event) => {
+    const handleTokenSimulationToggle = (event) => {
       setSimulationState(Boolean(event.active));
-    });
+    };
 
-    fileInput.addEventListener("change", async (event) => {
+    const handleFileChange = async (event) => {
       const [file] = event.target.files || [];
       if (!file) {
         return;
@@ -55,7 +58,15 @@ export function createModelerController({
       const xml = await file.text();
       await loadDiagram(xml, `已导入：${file.name}`);
       fileInput.value = "";
-    });
+    };
+
+    disposers.push(
+      onEmitter(modeler, "commandStack.changed", handleCommandStackChanged),
+      onEmitter(eventBus, "tokenSimulation.toggleMode", handleTokenSimulationToggle),
+      listen(fileInput, "change", handleFileChange),
+    );
+
+    return () => disposeAll(disposers);
   };
 
   const loadDefaultDiagram = () => loadDiagram(createDefaultDiagram(), "默认空白流程");
